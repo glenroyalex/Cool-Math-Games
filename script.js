@@ -1,46 +1,56 @@
-function showScreen(screen) {
+let xp = localStorage.getItem("xp") || 0;
+let level = Math.floor(xp / 100) + 1;
+let streak = 0;
 
-    document.querySelectorAll(".screen").forEach(s => {
-        s.classList.remove("active");
-    });
+function updateUI(){
+    document.getElementById("xpDisplay").innerText =
+        `XP: ${xp} | Level: ${level}`;
+}
 
-    if (screen === "home") {
-        document.getElementById("homeScreen").classList.add("active");
+updateUI();
+
+/* GENERATE QUESTION */
+let a = Math.floor(Math.random()*10);
+let b = Math.floor(Math.random()*10);
+let answer = a + b;
+
+document.getElementById("question").innerText =
+    `${a} + ${b} = ?`;
+
+/* CHECK ANSWER */
+function check(){
+    let user = Number(document.getElementById("answer").value);
+
+    if(user === answer){
+        streak++;
+        xp = Number(xp) + 10;
+
+        document.getElementById("result").innerText =
+            `✅ Correct! Streak: ${streak}`;
+
+    } else {
+        streak = 0;
+
+        document.getElementById("result").innerText =
+            `❌ Wrong! Answer: ${answer}`;
     }
 
-    if (screen === "notes") {
-        document.getElementById("notesScreen").classList.add("active");
-    }
+    localStorage.setItem("xp", xp);
+    level = Math.floor(xp / 100) + 1;
 
-    if (screen === "games") {
-        document.getElementById("gamesScreen").classList.add("active");
-    }
+    updateUI();
 
-    if (screen === "scores") {
-        document.getElementById("scoresScreen").classList.add("active");
-        loadScores();
-    }
+    nextQuestion();
 }
 
-function openGame(path) {
-    window.location.href = path;
-}
+/* NEW QUESTION */
+function nextQuestion(){
+    a = Math.floor(Math.random()*20);
+    b = Math.floor(Math.random()*20);
+    answer = a + b;
 
-/* 🏆 SCORE SYSTEM */
-function saveScore(name, value) {
-    localStorage.setItem(name, value);
-}
+    document.getElementById("question").innerText =
+        `${a} + ${b} = ?`;
 
-function getScore(name) {
-    return localStorage.getItem(name) || 0;
-}
-
-function loadScores() {
-    document.getElementById("clickerScore").innerText =
-        getScore("clickerScore");
-}
-
-function resetScores() {
-    localStorage.clear();
-    loadScores();
+    document.getElementById("answer").value = "";
 }
