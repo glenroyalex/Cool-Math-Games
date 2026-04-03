@@ -2,23 +2,24 @@ function openGame(path) {
     window.location.href = path;
 }
 
-// Switch to notes
+// show notes
 function showNotes() {
     document.getElementById("notesSection").style.display = "block";
     document.getElementById("gamesSection").style.display = "none";
 }
 
-// Switch to games
+// show games
 function showGames() {
     document.getElementById("notesSection").style.display = "none";
     document.getElementById("gamesSection").style.display = "block";
 }
 
-// Keyboard shortcuts
+// keyboard shortcuts
 document.addEventListener("keydown", function(e) {
     if (e.key.toLowerCase() === "n") {
         showNotes();
     }
+
     if (e.key.toLowerCase() === "g") {
         showGames();
     }
