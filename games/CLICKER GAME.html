@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="../games/effects.js"></script>
     <title>Clicker</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
 
-<h1>🖱️ Clicker Game</h1>
-<p>Press M to go back</p>
+<h1>🖱️ Clicker</h1>
+<p>M to exit</p>
 
-<button onclick="click()">Click!</button>
+<button onclick="clicker()">Click</button>
 
 <p>Coins: <span id="coins">0</span></p>
 <p>Power: <span id="power">1</span></p>
 
-<button onclick="upgrade()">Upgrade (Cost: 10)</button>
+<button onclick="upgrade()">Upgrade (10 coins)</button>
 
 <script>
 
 let coins = parseInt(localStorage.getItem("coins")) || 0;
 let power = parseInt(localStorage.getItem("power")) || 1;
-
 let xp = parseInt(localStorage.getItem("xp")) || 0;
 
-function save(){
-    localStorage.setItem("coins", coins);
-    localStorage.setItem("power", power);
-    localStorage.setItem("xp", xp);
-}
-
-function click(){
+function clicker(){
     coins += power;
     xp += 1;
+
     update();
     save();
 }
@@ -52,6 +45,12 @@ function update(){
     document.getElementById("power").innerText = power;
 }
 
+function save(){
+    localStorage.setItem("coins", coins);
+    localStorage.setItem("power", power);
+    localStorage.setItem("xp", xp);
+}
+
 update();
 
 document.addEventListener("keydown",(e)=>{
@@ -59,8 +58,8 @@ document.addEventListener("keydown",(e)=>{
         window.location.href="../arcade.html";
     }
 });
-playSound("click");
-spawnXP(event.clientX, event.clientY);
+
 </script>
+
 </body>
 </html>
