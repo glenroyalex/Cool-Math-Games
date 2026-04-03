@@ -4,7 +4,8 @@
     <title>Study Notes</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+
+<body tabindex="0">
 
 <h1>📚 Study Notes</h1>
 
@@ -35,6 +36,17 @@ function mulGame() {
     let ans = prompt(a + " × " + b + " = ?");
     alert(ans == a * b ? "Correct!" : "Wrong!");
 }
+
+/* 🔥 FIX KEYBOARD RELIABILITY */
+window.addEventListener("load", () => {
+    document.body.focus();
+});
+
+document.addEventListener("keydown", function(e) {
+    if (e.key.toLowerCase() === "g") {
+        window.location.href = "arcade.html";
+    }
+});
 </script>
 
 </body>
