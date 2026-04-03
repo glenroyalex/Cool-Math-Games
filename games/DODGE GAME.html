@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dodge Game</title>
+</head>
+<body style="background:black; color:lime; text-align:center;">
+
+<h1>⚡ Dodge Game</h1>
+
+<p>Press SPACE to survive</p>
+
+<p id="status">Alive</p>
+
+<script>
+document.addEventListener("keydown", function(e) {
+    if (e.code === "Space") {
+        document.getElementById("status").innerText = "You survived!";
+    }
+});
+</script>
+
+</body>
+</html>
