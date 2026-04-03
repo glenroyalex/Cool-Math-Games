@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="../games/effects.js"></script>
     <title>Snake</title>
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -9,7 +8,7 @@
 <body>
 
 <h1>🐍 Snake</h1>
-<p>Arrow keys to move | Press M to go back</p>
+<p>Arrow keys | M to exit</p>
 
 <canvas id="game" width="300" height="300"></canvas>
 <p>Score: <span id="score">0</span></p>
@@ -17,6 +16,7 @@
 <script>
 
 let xp = parseInt(localStorage.getItem("xp")) || 0;
+let level = parseInt(localStorage.getItem("level")) || 1;
 
 function addXP(v){
     xp += v;
@@ -31,7 +31,7 @@ let dir = "right";
 let food = {x:10,y:10};
 let score = 0;
 
-document.addEventListener("keydown", e=>{
+document.addEventListener("keydown",e=>{
     if(e.key=="ArrowUp")dir="up";
     if(e.key=="ArrowDown")dir="down";
     if(e.key=="ArrowLeft")dir="left";
@@ -55,8 +55,8 @@ function loop(){
         addXP(10);
 
         food = {
-            x: Math.floor(Math.random()*15),
-            y: Math.floor(Math.random()*15)
+            x:Math.floor(Math.random()*15),
+            y:Math.floor(Math.random()*15)
         };
 
         document.getElementById("score").innerText = score;
@@ -77,8 +77,8 @@ function loop(){
 }
 
 setInterval(loop,150);
-playSound("click");
-spawnXP(150,150);
+
 </script>
+
 </body>
 </html>
