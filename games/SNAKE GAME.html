@@ -1,22 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Snake Game</title>
+    <title>Snake</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
-<body style="background:black; color:lime; text-align:center;">
 
-<h1>🐍 Snake (Simple)</h1>
+<body>
 
-<p>Use arrow keys</p>
+<h1>🐍 Snake</h1>
+<p>Arrow keys to move | Press M to go back</p>
 
-<p id="dir">Direction: None</p>
+<canvas id="game" width="300" height="300"></canvas>
+<p>Score: <span id="score">0</span></p>
 
 <script>
-document.addEventListener("keydown", function(e) {
-    document.getElementById("dir").innerText =
-        "Direction: " + e.key;
-});
-</script>
 
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+
+function addXP(v){
+    xp += v;
+    localStorage.setItem("xp", xp);
+}
+
+let canvas = document.getElementById("game");
+let ctx = canvas.getContext("2d");
+
+let snake = [{x:5,y:5}];
+let dir = "right";
+let food = {x:10,y:10};
+let score = 0;
+
+document.addEventListener("keydown", e=>{
+    if(e.key=="ArrowUp")dir="up";
+    if(e.key=="ArrowDown")dir="down";
+    if(e.key=="ArrowLeft")dir="left";
+    if(e.key=="ArrowRight")dir="right";
+    if(e.key.toLowerCase()=="m") window.location.href="../arcade.html";
+});
+
+function loop(){
+
+    let head = {...snake[0]};
+
+    if(dir=="right")head.x++;
+    if(dir=="left")head.x--;
+    if(dir=="up")head.y--;
+    if(dir=="down")head.y++;
+
+    snake.unshift(head);
+
+    if(head.x==food.x && head.y==food.y){
+        score++;
+        addXP(10);
+
+        food = {
+            x: Math.floor(Math.random()*15),
+            y: Math.floor(Math.random()*15)
+        };
+
+        document.getElementById("score").innerText = score;
+
+    } else {
+        snake.pop();
+    }
+
+    ctx.clearRect(0,0,300,300);
+
+    ctx.fillStyle="red";
+    ctx.fillRect(food.x*20,food.y*20,20,20);
+
+    ctx.fillStyle="lime";
+    snake.forEach(s=>{
+        ctx.fillRect(s.x*20,s.y*20,20,20);
+    });
+}
+
+setInterval(loop,150);
+
+</script>
 </body>
 </html>
