@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="../games/effects.js"></script>
     <title>Dodge</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
 
-<h1>🏃 Dodge Game</h1>
-<p>A/D to move | Press M to go back</p>
+<h1>🏃 Dodge</h1>
+<p>A/D move | M exit</p>
 
 <canvas id="game" width="300" height="300"></canvas>
 <p>Score: <span id="score">0</span></p>
@@ -74,8 +73,8 @@ function loop(){
 }
 
 setInterval(loop,50);
-playSound("death");
-shake();
+
 </script>
+
 </body>
 </html>
