@@ -25,7 +25,6 @@
 </div>
 
 <script>
-
 let xp = parseInt(localStorage.getItem("xp")) || 0;
 let level = parseInt(localStorage.getItem("level")) || 1;
 
@@ -35,45 +34,39 @@ function updateHUD(){
 }
 updateHUD();
 
-/* 🔓 UNLOCKS */
-function setupUnlocks(){
+window.onload = () => {
 
-    let snakeBtn = document.getElementById("snakeBtn");
-    let clickerBtn = document.getElementById("clickerBtn");
-    let dodgeBtn = document.getElementById("dodgeBtn");
+    const snakeBtn = document.getElementById("snakeBtn");
+    const clickerBtn = document.getElementById("clickerBtn");
+    const dodgeBtn = document.getElementById("dodgeBtn");
 
-    clickerBtn.onclick = ()=>openGame("clicker");
+    clickerBtn.onclick = () => openGame("clicker");
 
     if(level >= 2){
-        snakeBtn.onclick = ()=>openGame("snake");
+        snakeBtn.onclick = () => openGame("snake");
     } else {
         snakeBtn.innerText = "🐍 Snake (Lvl 2)";
         snakeBtn.classList.add("locked");
     }
 
     if(level >= 3){
-        dodgeBtn.onclick = ()=>openGame("dodge");
+        dodgeBtn.onclick = () => openGame("dodge");
     } else {
         dodgeBtn.innerText = "🏃 Dodge (Lvl 3)";
         dodgeBtn.classList.add("locked");
     }
-}
+};
 
-setupUnlocks();
-
-/* 🎮 OPEN GAME */
 function openGame(name){
     localStorage.setItem("nextGame", name);
     window.location.href = "loading.html";
 }
 
-/* BACK KEY */
 document.addEventListener("keydown",(e)=>{
     if(e.key.toLowerCase()=="m"){
-        window.location.href = "index.html";
+        window.location.href = "arcade.html";
     }
 });
-
 </script>
 
 </body>
