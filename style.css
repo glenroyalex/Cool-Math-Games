@@ -157,3 +157,47 @@ button:hover {
     font-size: 18px;
     text-shadow: 0 0 5px lime;
 }
+/* 💥 SCREEN SHAKE */
+.shake {
+    animation: shake 0.2s;
+}
+
+@keyframes shake {
+    0% { transform: translate(2px,2px); }
+    50% { transform: translate(-2px,-2px); }
+    100% { transform: translate(2px,-2px); }
+}
+
+/* ✨ XP PARTICLES */
+.xp {
+    position: absolute;
+    color: lime;
+    font-weight: bold;
+    pointer-events: none;
+    animation: floatUp 0.8s ease-out;
+}
+
+@keyframes floatUp {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-40px); }
+}
+
+/* 🎨 MENU ANIMATIONS */
+.card {
+    transition: all 0.25s ease;
+}
+
+.card:hover {
+    transform: scale(1.1) rotate(1deg);
+    box-shadow: 0 0 20px lime;
+}
+
+/* 🎬 PAGE FADE */
+body {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
