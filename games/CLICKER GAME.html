@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clicker Game</title>
+</head>
+<body style="background:black; color:lime; text-align:center;">
+
+<h1>👆 Clicker Game</h1>
+
+<p>Score: <span id="score">0</span></p>
+
+<button onclick="clickMe()">CLICK</button>
+
+<script>
+let score = 0;
+
+function clickMe() {
+    score++;
+    document.getElementById("score").innerText = score;
+    localStorage.setItem("clickerScore", score);
+}
+</script>
+
+</body>
+</html>
