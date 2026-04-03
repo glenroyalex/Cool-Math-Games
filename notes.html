@@ -14,13 +14,13 @@
 
 <hr>
 
-<h2>Math Games</h2>
+<h2>🎮 Math Games</h2>
 
-<div class="card" onclick="startAdd()">➕ Addition Game</div>
-<div class="card" onclick="startMul()">✖️ Multiplication Game</div>
+<div class="card" onclick="addGame()">➕ Addition Game</div>
+<div class="card" onclick="mulGame()">✖️ Multiplication Game</div>
 
 <script>
-function startAdd() {
+function addGame() {
     let a = Math.floor(Math.random()*10);
     let b = Math.floor(Math.random()*10);
 
@@ -28,7 +28,7 @@ function startAdd() {
     alert(ans == a + b ? "Correct!" : "Wrong!");
 }
 
-function startMul() {
+function mulGame() {
     let a = Math.floor(Math.random()*12);
     let b = Math.floor(Math.random()*12);
 
