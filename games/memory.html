@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Memory Flip</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<h1>🧠 Memory Flip</h1>
+<p>M = back</p>
+
+<div id="game"></div>
+
+<script>
+let cards = ["🍎","🍌","🍇","🍒","🍎","🍌","🍇","🍒"];
+cards.sort(()=>Math.random()-0.5);
+
+let game = document.getElementById("game");
+let first = null;
+
+cards.forEach(c=>{
+    let btn = document.createElement("button");
+    btn.innerText = "❓";
+
+    btn.onclick = ()=>{
+        btn.innerText = c;
+
+        if(!first){
+            first = btn;
+        } else {
+            if(first.innerText === btn.innerText){
+                addXP(10);
+            } else {
+                setTimeout(()=>{
+                    first.innerText = "❓";
+                    btn.innerText = "❓";
+                },500);
+            }
+            first = null;
+        }
+    };
+
+    game.appendChild(btn);
+});
+
+document.addEventListener("keydown",e=>{
+    if(e.key.toLowerCase()=="m"){
+        window.location.href="../arcade.html";
+    }
+});
+</script>
+
+</body>
+</html>
