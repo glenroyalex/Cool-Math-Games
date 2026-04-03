@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+   <script src="effects.js"></script>
     <title>Dodge</title>
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -73,7 +74,8 @@ function loop(){
 }
 
 setInterval(loop,50);
-
+playSound("death");
+shake();
 </script>
 </body>
 </html>
