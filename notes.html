@@ -7,24 +7,68 @@
 
 <body tabindex="0">
 
-<h1>📚 Study Notes</h1>
+<h1>📚 Study Notes Hub</h1>
 
-<p>3 × 4 = 12</p>
-<p>5 + 7 = 12</p>
-<p>10 ÷ 2 = 5</p>
+<p>Press <b>G</b> to go to Games</p>
+
+<div class="menu">
+
+    <div class="card" onclick="openSection('arithmetic')">
+        ➕ Arithmetic
+    </div>
+
+    <div class="card" onclick="openSection('times')">
+        ✖️ Times Tables
+    </div>
+
+    <div class="card" onclick="openSection('mental')">
+        🧠 Mental Maths
+    </div>
+
+    <div class="card" onclick="openSection('random')">
+        🔢 Random Practice
+    </div>
+
+</div>
 
 <hr>
 
-<h2>🎮 Math Games</h2>
+<!-- SECTIONS -->
 
-<div class="card" onclick="addGame()">➕ Addition Game</div>
-<div class="card" onclick="mulGame()">✖️ Multiplication Game</div>
+<div id="arithmetic" class="section hidden">
+    <h2>➕ Arithmetic</h2>
+    <button onclick="addGame()">Start Addition Game</button>
+</div>
+
+<div id="times" class="section hidden">
+    <h2>✖️ Times Tables</h2>
+    <button onclick="mulGame()">Start Multiplication Game</button>
+</div>
+
+<div id="mental" class="section hidden">
+    <h2>🧠 Mental Maths</h2>
+    <button onclick="mentalGame()">Start Mental Challenge</button>
+</div>
+
+<div id="random" class="section hidden">
+    <h2>🔢 Random Practice</h2>
+    <button onclick="randomGame()">Start Random Question</button>
+</div>
 
 <script>
+/* NAV BETWEEN SECTIONS */
+function openSection(id) {
+    document.querySelectorAll(".section").forEach(sec => {
+        sec.classList.add("hidden");
+    });
+
+    document.getElementById(id).classList.remove("hidden");
+}
+
+/* MATH GAMES */
 function addGame() {
     let a = Math.floor(Math.random()*10);
     let b = Math.floor(Math.random()*10);
-
     let ans = prompt(a + " + " + b + " = ?");
     alert(ans == a + b ? "Correct!" : "Wrong!");
 }
@@ -32,15 +76,32 @@ function addGame() {
 function mulGame() {
     let a = Math.floor(Math.random()*12);
     let b = Math.floor(Math.random()*12);
-
     let ans = prompt(a + " × " + b + " = ?");
     alert(ans == a * b ? "Correct!" : "Wrong!");
 }
 
-/* 🔥 FIX KEYBOARD RELIABILITY */
-window.addEventListener("load", () => {
-    document.body.focus();
+function mentalGame() {
+    let a = Math.floor(Math.random()*20);
+    let b = Math.floor(Math.random()*20);
+    let ans = prompt("Quick! " + a + " + " + b + " = ?");
+    alert(ans == a + b ? "Nice!" : "Try again!");
+}
+
+function randomGame() {
+    let type = Math.floor(Math.random()*2);
+    if (type === 0) addGame();
+    else mulGame();
+}
+
+/* G KEY TO ARCade */
+document.addEventListener("keydown", function(e) {
+    if (e.key.toLowerCase() === "g") {
+        window.location.href = "arcade.html";
+    }
 });
+
+/* auto focus fix */
+window.onload = () => document.body.focus();
 
 document.addEventListener("keydown", function(e) {
     if (e.key.toLowerCase() === "g") {
