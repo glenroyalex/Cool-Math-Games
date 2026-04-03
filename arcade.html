@@ -3,7 +3,102 @@
 <head>
     <title>Cool Arcade</title>
     <link rel="stylesheet" href="style.css">
+<script>
 
+let user = localStorage.getItem("activeUser");
+
+if(!user){
+    window.location.href = "login.html";
+}
+
+/* 📦 LOAD USER DATA */
+function loadUser(){
+    let data = JSON.parse(localStorage.getItem("user_" + user));
+
+    if(!data){
+        data = {xp:0, level:1};
+    }
+
+    return data;
+}
+
+/* 💾 SAVE USER DATA */
+function saveUser(data){
+    localStorage.setItem("user_" + user, JSON.stringify(data));
+}
+
+/* 📊 INIT */
+let data = loadUser();
+
+let xp = data.xp;
+let level = data.level;
+
+function update(){
+    document.getElementById("xp").innerText = xp;
+    document.getElementById("lvl").innerText = level;
+}
+update();
+
+/* ⭐ XP SYSTEM */
+function addXP(amount){
+    xp += amount;
+
+    if(xp >= 100 && level === 1){
+        level = 2;
+        alert("Level Up! Snake unlocked 🐍");
+    }
+
+    if(xp >= 250 && level === 2){
+        level = 3;
+        alert("Level Up! Dodge unlocked 🏃");
+    }
+
+    saveUser({xp, level});
+    update();
+}
+
+/* 🎮 OPEN GAME */
+function openGame(game){
+    localStorage.setItem("nextGame", game);
+    window.location.href = "loading.html";
+}
+
+/* 🔓 UNLOCKS */
+function unlocks(){
+
+    let snake = document.getElementById("snake");
+    let dodge = document.getElementById("dodge");
+
+    if(level >= 2){
+        snake.onclick = () => openGame("snake");
+    } else {
+        snake.classList.add("locked");
+        snake.innerText = "🐍 Snake (Lvl 2)";
+    }
+
+    if(level >= 3){
+        dodge.onclick = () => openGame("dodge");
+    } else {
+        dodge.classList.add("locked");
+        dodge.innerText = "🏃 Dodge (Lvl 3)";
+    }
+}
+
+window.onload = () => unlocks();
+
+/* 🚪 LOG OUT (press L) */
+document.addEventListener("keydown",(e)=>{
+    if(e.key.toLowerCase()=="l"){
+        localStorage.removeItem("activeUser");
+        window.location.href="login.html";
+    }
+
+    if(e.key.toLowerCase()=="m"){
+        window.location.href="arcade.html";
+    }
+});
+
+</script>
 <style>
 body {
     background:#0b0b0b;
