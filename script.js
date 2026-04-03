@@ -1,3 +1,28 @@
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+let level = parseInt(localStorage.getItem("level")) || 1;
+
+function addXP(amount){
+    xp += amount;
+
+    // level up system
+    let needed = level * 50;
+
+    if(xp >= needed){
+        xp -= needed;
+        level++;
+        alert("🎉 Level Up! You are now Level " + level);
+    }
+
+    localStorage.setItem("xp", xp);
+    localStorage.setItem("level", level);
+
+    updateHUD();
+}
+
+function updateHUD(){
+    document.getElementById("xpText").innerText = xp;
+    document.getElementById("levelText").innerText = level;
+}
 let xp = localStorage.getItem("xp") || 0;
 let level = Math.floor(xp / 100) + 1;
 let streak = 0;
