@@ -2,6 +2,37 @@
 <html>
 <head>
    <script>
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+
+function addXP(amount){
+    xp += amount;
+    localStorage.setItem("xp", xp);
+    playSound("xp");
+    screenFlash();
+}
+
+/* 🔊 SOUND SYSTEM (optional files later) */
+function playSound(type){
+    let sounds = {
+        click: "click.mp3",
+        xp: "xp.mp3",
+        hit: "hit.mp3"
+    };
+
+    let audio = new Audio(sounds[type]);
+    audio.volume = 0.3;
+    audio.play().catch(()=>{});
+}
+
+/* ✨ SCREEN FLASH (Coolmath feel) */
+function screenFlash(){
+    document.body.style.filter = "brightness(2)";
+    setTimeout(()=>{
+        document.body.style.filter = "brightness(1)";
+    },100);
+}
+</script>
+   <script>
 function exitGame(){
     window.location.href = "../arcade.html";
 }
