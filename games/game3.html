@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reaction Game</title>
+</head>
+<body style="background:black; color:lime; text-align:center;">
+
+<h1>Reaction Game</h1>
+
+<p id="text">Wait for green...</p>
+<button onclick="clickMe()">Click!</button>
+
+<p id="result"></p>
+
+<script>
+let ready = false;
+
+setTimeout(() => {
+    document.getElementById("text").innerText = "CLICK NOW!";
+    ready = true;
+}, 2000);
+
+function clickMe() {
+    if (ready) {
+        document.getElementById("result").innerText = "Good reaction!";
+    } else {
+        document.getElementById("result").innerText = "Too early!";
+    }
+}
+</script>
+
+</body>
+</html>
