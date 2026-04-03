@@ -1,41 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>cool math games</title>
+    <title>Game Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>cool math games</h1>
+<!-- 🏠 HOME MENU -->
+<div id="homeScreen" class="screen active">
 
-<button onclick="showNotes()">📚 Notes</button>
-<button onclick="showGames()">🎮 Games</button>
+    <h1>🎮 Game Hub</h1>
 
-<p>Press N = Notes | G = Games</p>
+    <div class="menu">
+
+        <div class="card" onclick="showScreen('notes')">
+            📚 Study Notes
+        </div>
+
+        <div class="card" onclick="showScreen('games')">
+            🕹️ Arcade Games
+        </div>
+
+        <div class="card" onclick="showScreen('scores')">
+            🏆 High Scores
+        </div>
+
+    </div>
+</div>
 
 <!-- 📚 NOTES -->
-<div id="notesSection">
+<div id="notesScreen" class="screen">
+
     <h2>Study Notes</h2>
+
     <p>3 × 4 = 12</p>
     <p>5 + 7 = 12</p>
-    <p>10 ÷ 2 = 5</p>
+
+    <button onclick="showScreen('home')">⬅ Back</button>
 </div>
 
 <!-- 🎮 GAMES -->
-<div id="gamesSection" style="display:none;">
+<div id="gamesScreen" class="screen">
 
-    <div class="game" onclick="openGame('games/game1.html')">
-        ➕ Addition Game (1)
-    </div>
+    <h2>Arcade Games</h2>
 
-    <div class="game" onclick="openGame('games/game2.html')">
-        ✖️ Multiplication Game (2)
-    </div>
+    <div class="card" onclick="openGame('games/snake.html')">🐍 Snake</div>
+    <div class="card" onclick="openGame('games/dodge.html')">⚡ Dodge</div>
+    <div class="card" onclick="openGame('games/clicker.html')">👆 Clicker</div>
 
-    <div class="game" onclick="openGame('games/game3.html')">
-        🕹️ Reaction Game (3)
-    </div>
+    <button onclick="showScreen('home')">⬅ Back</button>
+</div>
 
+<!-- 🏆 SCORES -->
+<div id="scoresScreen" class="screen">
+
+    <h2>High Scores</h2>
+
+    <p>Clicker Score: <span id="clickerScore"></span></p>
+
+    <button onclick="resetScores()">Reset Scores</button>
+    <button onclick="showScreen('home')">⬅ Back</button>
 </div>
 
 <script src="script.js"></script>
