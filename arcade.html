@@ -28,6 +28,28 @@
 let xp = parseInt(localStorage.getItem("xp")) || 0;
 let level = parseInt(localStorage.getItem("level")) || 1;
 
+function save(){
+    localStorage.setItem("xp", xp);
+    localStorage.setItem("level", level);
+}
+
+function addXP(amount){
+    xp += amount;
+
+    // LEVEL SYSTEM
+    if(xp >= 100 && level === 1){
+        level = 2;
+        alert("Level Up! Snake unlocked 🐍");
+    }
+    if(xp >= 250 && level === 2){
+        level = 3;
+        alert("Level Up! Dodge unlocked 🏃");
+    }
+
+    save();
+    updateHUD();
+}
+
 function updateHUD(){
     document.getElementById("xpText").innerText = xp;
     document.getElementById("levelText").innerText = level;
@@ -57,13 +79,13 @@ window.onload = () => {
     }
 };
 
-function openGame(name){
-    localStorage.setItem("nextGame", name);
+function openGame(game){
+    localStorage.setItem("nextGame", game);
     window.location.href = "loading.html";
 }
 
 document.addEventListener("keydown",(e)=>{
-    if(e.key.toLowerCase()=="m"){
+    if(e.key.toLowerCase() === "m"){
         window.location.href = "arcade.html";
     }
 });
