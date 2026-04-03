@@ -3,6 +3,7 @@ body {
     color: lime;
     font-family: Arial;
     text-align: center;
+    margin: 0;
 }
 
 h1 {
@@ -35,6 +36,4 @@ h1 {
     background: #111;
     border-bottom: 2px solid lime;
     padding: 10px;
-    position: sticky;
-    top: 0;
 }
