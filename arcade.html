@@ -98,117 +98,94 @@ document.addEventListener("keydown",(e)=>{
     }
 });
 
-</script>
-<style>
-body {
-    background:#0b0b0b;
-    color:lime;
-    font-family:monospace;
-    margin:0;
-}
-window.onload = () => {
-    document.getElementById("username").innerText = user;
-    unlocks(); // keep your existing unlock function
-};
-/* 👤 USER SYSTEM */
-let user = localStorage.getItem("activeUser");
-
-if(!user){
-    window.location.href = "login.html";
-}
-
-/* SHOW USERNAME */
-document.getElementById("username").innerText = user;
-
-/* LOGOUT BUTTON */
-function logout(){
-    localStorage.removeItem("activeUser");
-    window.location.href = "login.html";
-}
-/* TOP BAR */
-.topbar {
-    display:flex;
-    justify-content:space-between;
-    padding:15px;
-    border-bottom:2px solid lime;
-}
-
-/* GRID MENU */
-.grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
-    gap:15px;
-    padding:20px;
-}
-
-/* GAME CARD */
-.card {
-    border:2px solid lime;
-    padding:20px;
-    text-align:center;
-    cursor:pointer;
-    transition:0.2s;
-    background:#050505;
-}
-
-.card:hover {
-    transform:scale(1.1);
-    box-shadow:0 0 10px lime;
-}
-
-.locked {
-    opacity:0.3;
-    cursor:not-allowed;
-}
-
-/* CATEGORY */
-.sectionTitle {
-    margin:20px;
-    font-size:18px;
-    border-left:4px solid lime;
-    padding-left:10px;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="topbar">
-
-    <div>🎮 COOL ARCADE</div>
-
-    <div>
-        👤 <span id="username">Guest</span> |
-        ⭐ XP: <span id="xp">0</span> |
-        🏆 Lvl: <span id="lvl">1</span>
-    </div>
-
-    <button onclick="logout()">Logout</button>
-
-</div>
-<div class="sectionTitle">🔥 Featured Games</div>
-
-<div class="grid">
-
-    <div class="card" onclick="openGame('clicker')">🖱️ Clicker</div>
-
-    <div class="card" id="snake">
-        🐍 Snake
-    </div>
-
-    <div class="card" id="dodge">
-        🏃 Dodge
-    </div>
-
-    <div class="card" onclick="openGame('memory')">🧠 Memory Flip</div>
-
-    <div class="card" onclick="openGame('reaction')">⚡ Reaction Test</div>
-
-</div>
-
 <script>
+window.onload = () => {
 
+    /* 👤 USER SYSTEM */
+    let user = localStorage.getItem("activeUser");
+
+    if(!user){
+        window.location.href = "login.html";
+        return;
+    }
+
+    document.getElementById("username").innerText = user;
+
+    /* 📦 LOAD USER DATA */
+    let data = JSON.parse(localStorage.getItem("user_" + user)) || {
+        xp: 0,
+        level: 1
+    };
+
+    let xp = data.xp;
+    let level = data.level;
+
+    function save(){
+        localStorage.setItem("user_" + user, JSON.stringify({xp, level}));
+    }
+
+    function update(){
+        document.getElementById("xp").innerText = xp;
+        document.getElementById("lvl").innerText = level;
+    }
+
+    update();
+
+    /* ⭐ XP SYSTEM */
+    function addXP(amount){
+        xp += amount;
+
+        if(xp >= 100 && level === 1){
+            level = 2;
+            alert("Level Up! Snake unlocked 🐍");
+        }
+
+        if(xp >= 250 && level === 2){
+            level = 3;
+            alert("Level Up! Dodge unlocked 🏃");
+        }
+
+        save();
+        update();
+    }
+
+    /* 🎮 OPEN GAME */
+    window.openGame = function(game){
+        localStorage.setItem("nextGame", game);
+        window.location.href = "loading.html";
+    }
+
+    /* 🔓 UNLOCK SYSTEM */
+    function unlocks(){
+
+        let snake = document.getElementById("snake");
+        let dodge = document.getElementById("dodge");
+
+        if(level >= 2){
+            snake.onclick = () => openGame("snake");
+        } else {
+            snake.classList.add("locked");
+            snake.innerText = "🐍 Snake (Lvl 2)";
+        }
+
+        if(level >= 3){
+            dodge.onclick = () => openGame("dodge");
+        } else {
+            dodge.classList.add("locked");
+            dodge.innerText = "🏃 Dodge (Lvl 3)";
+        }
+    }
+
+    unlocks();
+
+    /* 🚪 LOGOUT */
+    window.logout = function(){
+        localStorage.removeItem("activeUser");
+        window.location.href = "login.html";
+    }
+
+};
+</script>
 let xp = parseInt(localStorage.getItem("xp")) || 0;
 let level = parseInt(localStorage.getItem("level")) || 1;
 
