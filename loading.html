@@ -1,96 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Loading...</title>
-    <style>
-        body {
-            background:black;
-            color:lime;
-            font-family:monospace;
-            text-align:center;
-            margin-top:15%;
-        }
+<title>Loading...</title>
 
-        .bar {
-            width:300px;
-            height:20px;
-            border:2px solid lime;
-            margin:auto;
-            margin-top:20px;
-        }
+<style>
+body{
+    margin:0;
+    background:#0f1220;
+    color:white;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    flex-direction:column;
+}
 
-        .fill {
-            height:100%;
-            width:0%;
-            background:lime;
-        }
+.box{
+    text-align:center;
+}
 
-        .fade {
-            opacity:0;
-            transition:0.5s;
-        }
-    </style>
+.bar{
+    width:300px;
+    height:20px;
+    background:#22284a;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:20px;
+}
+
+.fill{
+    height:100%;
+    width:0%;
+    background:#4cafef;
+    transition:0.2s;
+}
+
+.text{
+    margin-top:15px;
+    opacity:0.8;
+}
+</style>
+
 </head>
 
 <body>
 
-<h1>🎮 Loading Game...</h1>
+<div class="box">
+    <h1>🎮 Loading Game...</h1>
 
-<div class="bar">
-    <div class="fill" id="fill"></div>
+    <div class="bar">
+        <div class="fill" id="fill"></div>
+    </div>
+
+    <div class="text" id="text">Preparing game files...</div>
 </div>
 
-<p id="text">Starting...</p>
-
 <script>
+window.onload = () => {
 
-let game = localStorage.getItem("nextGame");
+    let game = localStorage.getItem("nextGame");
 
-let fill = document.getElementById("fill");
-let text = document.getElementById("text");
+    let progress = 0;
 
-let progress = 0;
+    let fill = document.getElementById("fill");
+    let text = document.getElementById("text");
 
-let messages = [
-    "Booting system...",
-    "Loading assets...",
-    "Preparing level...",
-    "Almost ready..."
-];
+    let messages = [
+        "Connecting to server...",
+        "Loading assets...",
+        "Rendering world...",
+        "Almost ready...",
+        "Finalising..."
+    ];
 
-let msgIndex = 0;
+    let interval = setInterval(() => {
 
-let interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if(progress > 100) progress = 100;
 
-    progress += 5;
-    fill.style.width = progress + "%";
+        fill.style.width = progress + "%";
 
-    if(progress % 25 === 0 && msgIndex < messages.length){
-        text.innerText = messages[msgIndex];
-        msgIndex++;
-    }
+        let msgIndex = Math.floor(progress / 20);
+        text.innerText = messages[msgIndex] || "Starting...";
 
-    if(progress >= 100){
-        clearInterval(interval);
+        if(progress >= 100){
+            clearInterval(interval);
 
-        setTimeout(() => {
+            setTimeout(() => {
 
-            if(game === "snake"){
-                window.location.href = "games/snake.html";
-            }
-            else if(game === "clicker"){
-                window.location.href = "games/clicker.html";
-            }
-            else if(game === "dodge"){
-                window.location.href = "games/dodge.html";
-            }
-            else {
-                window.location.href = "arcade.html";
-            }
+                if(game === "clicker"){
+                    window.location.href = "games/CLICKER%20GAME.html";
+                }
 
+                else if(game === "snake"){
+                    window.location.href = "games/SNAKE%20GAME.html";
+                }
 
-}, 60);
+                else if(game === "dodge"){
+                    window.location.href = "games/DODGE%20GAME.html";
+                }
 
+                else{
+                    window.location.href = "arcade.html";
+                }
+
+            }, 500);
+
+        }
+
+    }, 200);
+
+};
 </script>
 
 </body>
