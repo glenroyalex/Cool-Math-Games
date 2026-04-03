@@ -1,35 +1,181 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Arcade Games</title>
+    <title>Arcade</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="topbar">
-    Press <b>N</b> to go back to Notes
+<h1>🎮 Arcade Hub</h1>
+<p>Press <b>M</b> to go back to Math Hub</p>
+
+<div class="menu">
+
+    <div class="card" onclick="showGame('snake')">🐍 Snake</div>
+    <div class="card" onclick="showGame('clicker')">🖱️ Clicker</div>
+    <div class="card" onclick="showGame('dodge')">🏃 Dodge Game</div>
+
 </div>
 
-<h1>🕹️ Arcade Games</h1>
+<hr>
 
-<div class="card" onclick="location.href='games/snake.html'">
-    🐍 Snake
+<!-- SNAKE -->
+<div id="snake" class="game hidden">
+    <h2>🐍 Snake</h2>
+    <canvas id="snakeCanvas" width="300" height="300"></canvas>
+    <p>Score: <span id="snakeScore">0</span></p>
 </div>
 
-<div class="card" onclick="location.href='games/dodge.html'">
-    ⚡ Dodge
+<!-- CLICKER -->
+<div id="clicker" class="game hidden">
+    <h2>🖱️ Clicker Game</h2>
+    <button onclick="clickerClick()">Click Me!</button>
+    <p>Coins: <span id="coins">0</span></p>
+    <button onclick="upgrade()">Upgrade (cost: 10)</button>
 </div>
 
-<div class="card" onclick="location.href='games/clicker.html'">
-    👆 Clicker
+<!-- DODGE -->
+<div id="dodge" class="game hidden">
+    <h2>🏃 Dodge Game</h2>
+    <canvas id="dodgeCanvas" width="300" height="300"></canvas>
+    <p>Score: <span id="dodgeScore">0</span></p>
 </div>
 
 <script>
-document.addEventListener("keydown", function(e) {
-    if (e.key.toLowerCase() === "n") {
-        window.location.href = "notes.html";
+/* NAV */
+function showGame(id){
+    document.querySelectorAll(".game").forEach(g=>g.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+}
+
+/* BACK TO MAIN */
+document.addEventListener("keydown",(e)=>{
+    if(e.key.toLowerCase()=="m"){
+        window.location.href="index.html";
     }
 });
+
+window.onload=()=>document.body.focus();
+
+/* ================= SNAKE ================= */
+let snakeCanvas = document.getElementById("snakeCanvas");
+let ctx = snakeCanvas.getContext("2d");
+
+let snake = [{x:5,y:5}];
+let dir = "right";
+let food = {x:10,y:10};
+let snakeScore = 0;
+
+document.addEventListener("keydown",e=>{
+    if(e.key=="ArrowUp")dir="up";
+    if(e.key=="ArrowDown")dir="down";
+    if(e.key=="ArrowLeft")dir="left";
+    if(e.key=="ArrowRight")dir="right";
+});
+
+function snakeGame(){
+    let head = {...snake[0]};
+
+    if(dir=="right")head.x++;
+    if(dir=="left")head.x--;
+    if(dir=="up")head.y--;
+    if(dir=="down")head.y++;
+
+    snake.unshift(head);
+
+    if(head.x==food.x && head.y==food.y){
+        snakeScore++;
+        food={x:Math.floor(Math.random()*15),y:Math.floor(Math.random()*15)};
+        document.getElementById("snakeScore").innerText=snakeScore;
+    } else {
+        snake.pop();
+    }
+
+    ctx.clearRect(0,0,300,300);
+
+    ctx.fillStyle="red";
+    ctx.fillRect(food.x*20,food.y*20,20,20);
+
+    ctx.fillStyle="lime";
+    snake.forEach(s=>{
+        ctx.fillRect(s.x*20,s.y*20,20,20);
+    });
+}
+
+setInterval(snakeGame,200);
+
+/* ================= CLICKER ================= */
+let coins = 0;
+let power = 1;
+
+function clickerClick(){
+    coins += power;
+    document.getElementById("coins").innerText=coins;
+    localStorage.setItem("coins",coins);
+}
+
+function upgrade(){
+    if(coins >= 10){
+        coins -= 10;
+        power++;
+        document.getElementById("coins").innerText=coins;
+    }
+}
+
+/* load save */
+coins = parseInt(localStorage.getItem("coins")) || 0;
+
+/* ================= DODGE GAME ================= */
+let dodgeCanvas = document.getElementById("dodgeCanvas");
+let dctx = dodgeCanvas.getContext("2d");
+
+let player = {x:150,y:250};
+let enemies = [];
+let dodgeScore = 0;
+
+document.addEventListener("keydown",e=>{
+    if(e.key=="a")player.x-=10;
+    if(e.key=="d")player.x+=10;
+});
+
+function dodgeGame(){
+
+    if(Math.random()<0.05){
+        enemies.push({x:Math.random()*280,y:0});
+    }
+
+    dctx.clearRect(0,0,300,300);
+
+    dctx.fillStyle="blue";
+    dctx.fillRect(player.x,player.y,20,20);
+
+    dctx.fillStyle="red";
+
+    enemies.forEach((e,i)=>{
+        e.y += 3;
+        dctx.fillRect(e.x,e.y,20,20);
+
+        if(e.y>300){
+            enemies.splice(i,1);
+            dodgeScore++;
+            document.getElementById("dodgeScore").innerText=dodgeScore;
+        }
+
+        if(
+            e.x < player.x+20 &&
+            e.x+20 > player.x &&
+            e.y < player.y+20 &&
+            e.y+20 > player.y
+        ){
+            alert("💀 Game Over! Score: " + dodgeScore);
+            location.reload();
+        }
+    });
+}
+
+setInterval(dodgeGame,50);
+
 </script>
 
 </body>
