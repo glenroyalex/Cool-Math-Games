@@ -222,7 +222,51 @@ function dodgeGame(){
 }
 
 setInterval(dodgeGame,50);
+let level = parseInt(localStorage.getItem("level")) || 1;
 
+/* unlock rules */
+let unlocks = {
+    snake: 2,
+    dodge: 3,
+    clicker: 1
+};
+
+function setupUnlocks(){
+
+    let snakeBtn = document.getElementById("snakeBtn");
+    let clickerBtn = document.getElementById("clickerBtn");
+    let dodgeBtn = document.getElementById("dodgeBtn");
+
+    /* Snake */
+    if(level >= unlocks.snake){
+        snakeBtn.onclick = ()=>goGame("snake");
+    } else {
+        snakeBtn.innerText += " 🔒 (Lvl 2)";
+        snakeBtn.classList.add("locked");
+    }
+
+    /* Clicker */
+    if(level >= unlocks.clicker){
+        clickerBtn.onclick = ()=>goGame("clicker");
+    }
+
+    /* Dodge */
+    if(level >= unlocks.dodge){
+        dodgeBtn.onclick = ()=>goGame("dodge");
+    } else {
+        dodgeBtn.innerText += " 🔒 (Lvl 3)";
+        dodgeBtn.classList.add("locked");
+    }
+}
+
+function goGame(name){
+    document.body.classList.add("fadeOut");
+    setTimeout(()=>{
+        window.location.href = "games/" + name + ".html";
+    }, 300);
+}
+
+setupUnlocks();
 </script>
 
 </body>
