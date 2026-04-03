@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Arcade</title>
+    <title>Arcade Hub</title>
     <link rel="stylesheet" href="style.css">
-    <div class="hud">
-    ⭐ XP: <span id="xpText">0</span> |
-    🏆 Level: <span id="levelText">1</span>
-</div>
 </head>
 
 <body>
 
 <h1>🎮 Arcade Hub</h1>
-<p>Press <b>M</b> to go back to Math Hub</p>
+
+<div class="hud">
+    ⭐ XP: <span id="xpText">0</span> |
+    🏆 Level: <span id="levelText">1</span>
+</div>
+
+<p>Press <b>M</b> to return to Math Hub</p>
 
 <div class="menu">
 
     <div class="card" onclick="showGame('snake')">🐍 Snake</div>
     <div class="card" onclick="showGame('clicker')">🖱️ Clicker</div>
-    <div class="card" onclick="showGame('dodge')">🏃 Dodge Game</div>
+    <div class="card" onclick="showGame('dodge')">🏃 Dodge</div>
 
 </div>
 
 <hr>
 
-<!-- SNAKE -->
+<!-- 🐍 SNAKE -->
 <div id="snake" class="game hidden">
     <h2>🐍 Snake</h2>
     <canvas id="snakeCanvas" width="300" height="300"></canvas>
     <p>Score: <span id="snakeScore">0</span></p>
 </div>
 
-<!-- CLICKER -->
+<!-- 🖱️ CLICKER -->
 <div id="clicker" class="game hidden">
     <h2>🖱️ Clicker Game</h2>
-    <button onclick="clickerClick()">Click Me!</button>
+
+    <button onclick="click()">Click Me</button>
+
     <p>Coins: <span id="coins">0</span></p>
-    <button onclick="upgrade()">Upgrade (cost: 10)</button>
+
+    <button onclick="upgrade()">Upgrade (+1 per click, cost 10)</button>
 </div>
 
-<!-- DODGE -->
+<!-- 🏃 DODGE -->
 <div id="dodge" class="game hidden">
     <h2>🏃 Dodge Game</h2>
     <canvas id="dodgeCanvas" width="300" height="300"></canvas>
@@ -47,6 +52,34 @@
 </div>
 
 <script>
+
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+let level = parseInt(localStorage.getItem("level")) || 1;
+
+function addXP(amount){
+    xp += amount;
+
+    let need = level * 50;
+
+    if(xp >= need){
+        xp -= need;
+        level++;
+        alert("🎉 Level Up! Level " + level);
+    }
+
+    localStorage.setItem("xp", xp);
+    localStorage.setItem("level", level);
+
+    updateHUD();
+}
+
+function updateHUD(){
+    document.getElementById("xpText").innerText = xp;
+    document.getElementById("levelText").innerText = level;
+}
+
+updateHUD();
+
 /* NAV */
 function showGame(id){
     document.querySelectorAll(".game").forEach(g=>g.classList.add("hidden"));
@@ -60,11 +93,9 @@ document.addEventListener("keydown",(e)=>{
     }
 });
 
-window.onload=()=>document.body.focus();
-
 /* ================= SNAKE ================= */
-let snakeCanvas = document.getElementById("snakeCanvas");
-let ctx = snakeCanvas.getContext("2d");
+let canvas = document.getElementById("snakeCanvas");
+let ctx = canvas.getContext("2d");
 
 let snake = [{x:5,y:5}];
 let dir = "right";
@@ -79,6 +110,7 @@ document.addEventListener("keydown",e=>{
 });
 
 function snakeGame(){
+
     let head = {...snake[0]};
 
     if(dir=="right")head.x++;
@@ -90,8 +122,14 @@ function snakeGame(){
 
     if(head.x==food.x && head.y==food.y){
         snakeScore++;
-        food={x:Math.floor(Math.random()*15),y:Math.floor(Math.random()*15)};
-        document.getElementById("snakeScore").innerText=snakeScore;
+        addXP(10);
+
+        food = {
+            x: Math.floor(Math.random()*15),
+            y: Math.floor(Math.random()*15)
+        };
+
+        document.getElementById("snakeScore").innerText = snakeScore;
     } else {
         snake.pop();
     }
@@ -107,32 +145,36 @@ function snakeGame(){
     });
 }
 
-setInterval(snakeGame,200);
+setInterval(snakeGame,150);
 
 /* ================= CLICKER ================= */
-let coins = 0;
+let coins = parseInt(localStorage.getItem("coins")) || 0;
 let power = 1;
 
-function clickerClick(){
+function click(){
     coins += power;
-    document.getElementById("coins").innerText=coins;
-    localStorage.setItem("coins",coins);
+    addXP(1);
+    updateClicker();
 }
 
 function upgrade(){
     if(coins >= 10){
         coins -= 10;
         power++;
-        document.getElementById("coins").innerText=coins;
+        updateClicker();
     }
 }
 
-/* load save */
-coins = parseInt(localStorage.getItem("coins")) || 0;
+function updateClicker(){
+    document.getElementById("coins").innerText = coins;
+    localStorage.setItem("coins", coins);
+}
 
-/* ================= DODGE GAME ================= */
-let dodgeCanvas = document.getElementById("dodgeCanvas");
-let dctx = dodgeCanvas.getContext("2d");
+updateClicker();
+
+/* ================= DODGE ================= */
+let dcanvas = document.getElementById("dodgeCanvas");
+let dctx = dcanvas.getContext("2d");
 
 let player = {x:150,y:250};
 let enemies = [];
@@ -145,7 +187,7 @@ document.addEventListener("keydown",e=>{
 
 function dodgeGame(){
 
-    if(Math.random()<0.05){
+    if(Math.random()<0.04){
         enemies.push({x:Math.random()*280,y:0});
     }
 
@@ -158,12 +200,14 @@ function dodgeGame(){
 
     enemies.forEach((e,i)=>{
         e.y += 3;
+
         dctx.fillRect(e.x,e.y,20,20);
 
         if(e.y>300){
             enemies.splice(i,1);
             dodgeScore++;
-            document.getElementById("dodgeScore").innerText=dodgeScore;
+            addXP(5);
+            document.getElementById("dodgeScore").innerText = dodgeScore;
         }
 
         if(
