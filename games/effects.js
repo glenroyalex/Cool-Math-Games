@@ -1,15 +1,35 @@
-/* SOUND SYSTEM */
+/* 🔊 SOUND SYSTEM */
 function playSound(type){
-    let audio;
+    let sounds = {
+        click: new Audio("../sounds/click.mp3"),
+        level: new Audio("../sounds/level.mp3"),
+        death: new Audio("../sounds/death.mp3")
+    };
 
-    if(type=="click") audio = new Audio("../sounds/click.mp3");
-    if(type=="level") audio = new Audio("../sounds/level.mp3");
-    if(type=="death") audio = new Audio("../sounds/death.mp3");
-
-    if(audio) audio.play();
+    if(sounds[type]){
+        sounds[type].currentTime = 0;
+        sounds[type].play();
+    }
 }
 
-/* SCREEN SHAKE */
+/* 💥 SCREEN SHAKE */
 function shake(){
     document.body.classList.add("shake");
-    setTimeout(()=>document.body.classList.remove("shake
+    setTimeout(()=>{
+        document.body.classList.remove("shake");
+    }, 200);
+}
+
+/* ✨ XP PARTICLES */
+function spawnXP(x, y){
+    let p = document.createElement("div");
+    p.className = "xp";
+
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    p.innerText = "+XP";
+
+    document.body.appendChild(p);
+
+    setTimeout(()=>p.remove(), 800);
+}
