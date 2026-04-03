@@ -1,25 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Clicker Game</title>
+    <title>Clicker</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
-<body style="background:black; color:lime; text-align:center;">
 
-<h1>👆 Clicker Game</h1>
+<body>
 
-<p>Score: <span id="score">0</span></p>
+<h1>🖱️ Clicker Game</h1>
+<p>Press M to go back</p>
 
-<button onclick="clickMe()">CLICK</button>
+<button onclick="click()">Click!</button>
+
+<p>Coins: <span id="coins">0</span></p>
+<p>Power: <span id="power">1</span></p>
+
+<button onclick="upgrade()">Upgrade (Cost: 10)</button>
 
 <script>
-let score = 0;
 
-function clickMe() {
-    score++;
-    document.getElementById("score").innerText = score;
-    localStorage.setItem("clickerScore", score);
+let coins = parseInt(localStorage.getItem("coins")) || 0;
+let power = parseInt(localStorage.getItem("power")) || 1;
+
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+
+function save(){
+    localStorage.setItem("coins", coins);
+    localStorage.setItem("power", power);
+    localStorage.setItem("xp", xp);
 }
-</script>
 
+function click(){
+    coins += power;
+    xp += 1;
+    update();
+    save();
+}
+
+function upgrade(){
+    if(coins >= 10){
+        coins -= 10;
+        power++;
+        update();
+        save();
+    }
+}
+
+function update(){
+    document.getElementById("coins").innerText = coins;
+    document.getElementById("power").innerText = power;
+}
+
+update();
+
+document.addEventListener("keydown",(e)=>{
+    if(e.key.toLowerCase()=="m"){
+        window.location.href="../arcade.html";
+    }
+});
+
+</script>
 </body>
 </html>
