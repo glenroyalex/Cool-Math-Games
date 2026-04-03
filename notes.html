@@ -8,43 +8,32 @@
 
 <h1>📚 Study Notes</h1>
 
-<button onclick="location.href='index.html'">⬅ Home</button>
-
-<h2>Notes</h2>
-
 <p>3 × 4 = 12</p>
 <p>5 + 7 = 12</p>
 <p>10 ÷ 2 = 5</p>
 
 <hr>
 
-<h2>🎮 Math Games</h2>
+<h2>Math Games</h2>
 
-<div class="card" onclick="startGame1()">
-    ➕ Addition Game
-</div>
-
-<div class="card" onclick="startGame2()">
-    ✖️ Multiplication Game
-</div>
-
-<p id="gameArea"></p>
+<div class="card" onclick="startAdd()">➕ Addition Game</div>
+<div class="card" onclick="startMul()">✖️ Multiplication Game</div>
 
 <script>
-function startGame1() {
+function startAdd() {
     let a = Math.floor(Math.random()*10);
     let b = Math.floor(Math.random()*10);
 
-    let answer = prompt(a + " + " + b + " = ?");
-    alert(answer == a + b ? "Correct!" : "Wrong!");
+    let ans = prompt(a + " + " + b + " = ?");
+    alert(ans == a + b ? "Correct!" : "Wrong!");
 }
 
-function startGame2() {
+function startMul() {
     let a = Math.floor(Math.random()*12);
     let b = Math.floor(Math.random()*12);
 
-    let answer = prompt(a + " × " + b + " = ?");
-    alert(answer == a * b ? "Correct!" : "Wrong!");
+    let ans = prompt(a + " × " + b + " = ?");
+    alert(ans == a * b ? "Correct!" : "Wrong!");
 }
 </script>
 
