@@ -106,3 +106,54 @@ canvas {
     display: block;
     margin: 10px auto;
 }
+body {
+    background: black;
+    color: lime;
+    font-family: "Courier New", monospace;
+    text-align: center;
+}
+
+h1 {
+    text-shadow: 0 0 10px lime;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 150px;
+    padding: 15px;
+    border: 2px solid lime;
+    cursor: pointer;
+    background: #050505;
+    box-shadow: 0 0 10px lime;
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px lime;
+}
+
+button {
+    background: black;
+    color: lime;
+    border: 2px solid lime;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: lime;
+    color: black;
+}
+
+.hud {
+    margin: 10px;
+    font-size: 18px;
+    text-shadow: 0 0 5px lime;
+}
