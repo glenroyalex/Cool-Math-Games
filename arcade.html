@@ -1,94 +1,138 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Arcade Hub</title>
+    <title>Cool Arcade</title>
     <link rel="stylesheet" href="style.css">
+
+<style>
+body {
+    background:#0b0b0b;
+    color:lime;
+    font-family:monospace;
+    margin:0;
+}
+
+/* TOP BAR */
+.topbar {
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    border-bottom:2px solid lime;
+}
+
+/* GRID MENU */
+.grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:15px;
+    padding:20px;
+}
+
+/* GAME CARD */
+.card {
+    border:2px solid lime;
+    padding:20px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.2s;
+    background:#050505;
+}
+
+.card:hover {
+    transform:scale(1.1);
+    box-shadow:0 0 10px lime;
+}
+
+.locked {
+    opacity:0.3;
+    cursor:not-allowed;
+}
+
+/* CATEGORY */
+.sectionTitle {
+    margin:20px;
+    font-size:18px;
+    border-left:4px solid lime;
+    padding-left:10px;
+}
+</style>
+
 </head>
 
 <body>
 
-<h1>🎮 Arcade Hub</h1>
-
-<div class="hud">
-    ⭐ XP: <span id="xpText">0</span> |
-    🏆 Level: <span id="levelText">1</span>
+<div class="topbar">
+    <div>🎮 COOL ARCADE</div>
+    <div>⭐ XP: <span id="xp">0</span> | 🏆 Lvl: <span id="lvl">1</span></div>
 </div>
 
-<p>Click a game to play</p>
+<div class="sectionTitle">🔥 Featured Games</div>
 
-<div class="menu">
+<div class="grid">
 
-    <div class="card" id="snakeBtn">🐍 Snake</div>
-    <div class="card" id="clickerBtn">🖱️ Clicker</div>
-    <div class="card" id="dodgeBtn">🏃 Dodge</div>
+    <div class="card" onclick="openGame('clicker')">🖱️ Clicker</div>
+
+    <div class="card" id="snake">
+        🐍 Snake
+    </div>
+
+    <div class="card" id="dodge">
+        🏃 Dodge
+    </div>
+
+    <div class="card" onclick="openGame('memory')">🧠 Memory Flip</div>
+
+    <div class="card" onclick="openGame('reaction')">⚡ Reaction Test</div>
 
 </div>
 
 <script>
+
 let xp = parseInt(localStorage.getItem("xp")) || 0;
 let level = parseInt(localStorage.getItem("level")) || 1;
 
-function save(){
-    localStorage.setItem("xp", xp);
-    localStorage.setItem("level", level);
+function update(){
+    document.getElementById("xp").innerText = xp;
+    document.getElementById("lvl").innerText = level;
 }
+update();
 
-function addXP(amount){
-    xp += amount;
+/* 🔓 UNLOCK SYSTEM */
+function unlocks(){
 
-    // LEVEL SYSTEM
-    if(xp >= 100 && level === 1){
-        level = 2;
-        alert("Level Up! Snake unlocked 🐍");
-    }
-    if(xp >= 250 && level === 2){
-        level = 3;
-        alert("Level Up! Dodge unlocked 🏃");
-    }
-
-    save();
-    updateHUD();
-}
-
-function updateHUD(){
-    document.getElementById("xpText").innerText = xp;
-    document.getElementById("levelText").innerText = level;
-}
-updateHUD();
-
-window.onload = () => {
-
-    const snakeBtn = document.getElementById("snakeBtn");
-    const clickerBtn = document.getElementById("clickerBtn");
-    const dodgeBtn = document.getElementById("dodgeBtn");
-
-    clickerBtn.onclick = () => openGame("clicker");
+    let snake = document.getElementById("snake");
+    let dodge = document.getElementById("dodge");
 
     if(level >= 2){
-        snakeBtn.onclick = () => openGame("snake");
+        snake.onclick = () => openGame("snake");
     } else {
-        snakeBtn.innerText = "🐍 Snake (Lvl 2)";
-        snakeBtn.classList.add("locked");
+        snake.classList.add("locked");
+        snake.innerText = "🐍 Snake (Lvl 2)";
     }
 
     if(level >= 3){
-        dodgeBtn.onclick = () => openGame("dodge");
+        dodge.onclick = () => openGame("dodge");
     } else {
-        dodgeBtn.innerText = "🏃 Dodge (Lvl 3)";
-        dodgeBtn.classList.add("locked");
+        dodge.classList.add("locked");
+        dodge.innerText = "🏃 Dodge (Lvl 3)";
     }
-};
+}
 
+unlocks();
+
+/* 🎮 OPEN GAME */
 function openGame(game){
     localStorage.setItem("nextGame", game);
     window.location.href = "loading.html";
 }
 
+/* 🧠 KEY EXIT */
 document.addEventListener("keydown",(e)=>{
-    if(e.key.toLowerCase() === "m"){
-        window.location.href = "arcade.html";
+    if(e.key.toLowerCase()=="m"){
+        window.location.href="arcade.html";
     }
 });
+
 </script>
 
 </body>
