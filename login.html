@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<style>
+body{
+    background:black;
+    color:lime;
+    font-family:monospace;
+    text-align:center;
+    margin-top:10%;
+}
+
+input, button{
+    padding:10px;
+    margin:5px;
+    background:black;
+    border:2px solid lime;
+    color:lime;
+}
+
+button:hover{
+    cursor:pointer;
+    background:lime;
+    color:black;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎮 Cool Arcade Login</h1>
+
+<input id="name" placeholder="Enter username">
+
+<br>
+
+<button onclick="login()">Login / Create Account</button>
+
+<script>
+
+function login(){
+    let name = document.getElementById("name").value.trim();
+
+    if(!name){
+        alert("Enter a username!");
+        return;
+    }
+
+    // set active user
+    localStorage.setItem("activeUser", name);
+
+    // create account if doesn't exist
+    if(!localStorage.getItem("user_" + name)){
+        let data = {
+            xp:0,
+            level:1
+        };
+        localStorage.setItem("user_" + name, JSON.stringify(data));
+    }
+
+    window.location.href = "arcade.html";
+}
+
+</script>
+
+</body>
+</html>
