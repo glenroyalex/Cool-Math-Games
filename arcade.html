@@ -110,7 +110,21 @@ window.onload = () => {
     document.getElementById("username").innerText = user;
     unlocks(); // keep your existing unlock function
 };
+/* 👤 USER SYSTEM */
+let user = localStorage.getItem("activeUser");
 
+if(!user){
+    window.location.href = "login.html";
+}
+
+/* SHOW USERNAME */
+document.getElementById("username").innerText = user;
+
+/* LOGOUT BUTTON */
+function logout(){
+    localStorage.removeItem("activeUser");
+    window.location.href = "login.html";
+}
 /* TOP BAR */
 .topbar {
     display:flex;
