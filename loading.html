@@ -8,44 +8,91 @@
             color:lime;
             font-family:monospace;
             text-align:center;
-            margin-top:20%;
+            margin-top:15%;
+        }
+
+        .bar {
+            width:300px;
+            height:20px;
+            border:2px solid lime;
+            margin:auto;
+            margin-top:20px;
+        }
+
+        .fill {
+            height:100%;
+            width:0%;
+            background:lime;
+        }
+
+        .fade {
+            opacity:0;
+            transition:0.5s;
         }
     </style>
 </head>
 
 <body>
 
-<h1>Loading...</h1>
-<p>Starting game...</p>
+<h1>🎮 Loading Game...</h1>
+
+<div class="bar">
+    <div class="fill" id="fill"></div>
+</div>
+
+<p id="text">Starting...</p>
 
 <script>
+
 let game = localStorage.getItem("nextGame");
 
-// safety check
-if(!game){
-    window.location.href = "arcade.html";
-}
+let fill = document.getElementById("fill");
+let text = document.getElementById("text");
 
-// fake loading delay (Coolmath style feel)
-setTimeout(() => {
+let progress = 0;
 
-    if(game === "snake"){
-        window.location.href = "games/SNAKE%20GAME.html";
+let messages = [
+    "Booting system...",
+    "Loading assets...",
+    "Preparing level...",
+    "Almost ready..."
+];
+
+let msgIndex = 0;
+
+let interval = setInterval(() => {
+
+    progress += 5;
+    fill.style.width = progress + "%";
+
+    if(progress % 25 === 0 && msgIndex < messages.length){
+        text.innerText = messages[msgIndex];
+        msgIndex++;
     }
 
-    else if(game === "clicker"){
-        window.location.href = "games/CLICKER%20GAME.html";
+    if(progress >= 100){
+        clearInterval(interval);
+
+        setTimeout(() => {
+
+            if(game === "snake"){
+                window.location.href = "games/SNAKE%20GAME.html";
+            }
+            else if(game === "clicker"){
+                window.location.href = "games/CLICKER%20GAME.html";
+            }
+            else if(game === "dodge"){
+                window.location.href = "games/DODGE%20GAME.html";
+            }
+            else {
+                window.location.href = "arcade.html";
+            }
+
+        }, 300);
     }
 
-    else if(game === "dodge"){
-        window.location.href = "games/DODGE%20GAME.html";
-    }
+}, 60);
 
-    else {
-        window.location.href = "arcade.html";
-    }
-
-}, 900);
 </script>
 
 </body>
