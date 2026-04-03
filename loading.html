@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loading...</title>
+<style>
+body {
+    background:black;
+    color:lime;
+    font-family:monospace;
+    text-align:center;
+    margin-top:20%;
+}
+</style>
+</head>
+<body>
+
+<h1>Loading...</h1>
+<p>Please wait</p>
+
+<script>
+let game = localStorage.getItem("nextGame");
+
+setTimeout(()=>{
+    window.location.href = "games/" + game + ".html";
+}, 1000);
+</script>
+
+</body>
+</html>
