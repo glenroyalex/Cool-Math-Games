@@ -1,72 +1,223 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Notes</title>
+    <title>Math + Notes Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="topbar">
-    📝 Notes App
+    📚 Notes + Math Practice Hub
 </div>
 
 <div class="container">
 
-    <!-- LEFT: SECTIONS -->
-    <div class="sidebar">
+<!-- LEFT: REAL NOTES -->
+<div class="notes">
 
-        <button onclick="openNote('math')">📘 Math</button>
-        <button onclick="openNote('science')">🔬 Science</button>
-        <button onclick="openNote('english')">📖 English</button>
-        <button onclick="openNote('free')">🗒️ Free Notes</button>
+    <h2>📝 Your Notes</h2>
+
+    <textarea id="notesBox" placeholder="Type your notes here..."></textarea>
+
+</div>
+
+<!-- RIGHT: MATH PRACTICE -->
+<div class="practice">
+
+    <h2>🧮 Practice</h2>
+
+    <div class="menu">
+
+        <button onclick="show('add')">➕ Add</button>
+        <button onclick="show('sub')">➖ Sub</button>
+        <button onclick="show('mul')">✖️ Mul</button>
+        <button onclick="show('div')">➗ Div</button>
+        <button onclick="show('area')">🔷 Area</button>
+        <button onclick="show('pythag')">🟦 Pythag</button>
 
     </div>
 
-    <!-- RIGHT: EDITOR -->
-    <div class="editor">
+    <hr>
 
-        <h2 id="title">Math Notes</h2>
+    <!-- ➕ ADD -->
+    <div id="add" class="section hidden">
+        <p id="addQ"></p>
+        <input id="addAns">
+        <button onclick="checkAdd()">Check</button>
+        <p id="addR"></p>
+    </div>
 
-        <textarea id="noteArea" placeholder="Type your notes here..."></textarea>
+    <!-- ➖ SUB -->
+    <div id="sub" class="section hidden">
+        <p id="subQ"></p>
+        <input id="subAns">
+        <button onclick="checkSub()">Check</button>
+        <p id="subR"></p>
+    </div>
 
+    <!-- ✖️ MUL -->
+    <div id="mul" class="section hidden">
+        <p id="mulQ"></p>
+        <input id="mulAns">
+        <button onclick="checkMul()">Check</button>
+        <p id="mulR"></p>
+    </div>
+
+    <!-- ➗ DIV -->
+    <div id="div" class="section hidden">
+        <p id="divQ"></p>
+        <input id="divAns">
+        <button onclick="checkDiv()">Check</button>
+        <p id="divR"></p>
+    </div>
+
+    <!-- 🔷 AREA -->
+    <div id="area" class="section hidden">
+        <p id="areaQ"></p>
+        <input id="areaAns">
+        <button onclick="checkArea()">Check</button>
+        <p id="areaR"></p>
+    </div>
+
+    <!-- 🟦 PYTHAG -->
+    <div id="pythag" class="section hidden">
+        <p id="pyQ"></p>
+        <input id="pyAns">
+        <button onclick="checkPy()">Check</button>
+        <p id="pyR"></p>
     </div>
 
 </div>
 
+</div>
+
 <script>
-let current = "math";
 
-/* load saved note */
-function loadNote(name){
-    document.getElementById("noteArea").value =
-        localStorage.getItem(name) || "";
+/* ======================
+   📝 NOTES SAVE SYSTEM
+====================== */
+
+let notesBox = document.getElementById("notesBox");
+
+// load saved notes
+notesBox.value = localStorage.getItem("notes") || "";
+
+// auto save
+notesBox.addEventListener("input", () => {
+    localStorage.setItem("notes", notesBox.value);
+});
+
+/* ======================
+   🧠 SECTION NAV
+====================== */
+
+function show(id){
+    document.querySelectorAll(".section").forEach(s => s.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
 }
 
-/* switch sections */
-function openNote(name){
-    saveNote(); // save current first
-    current = name;
+/* ======================
+   🧮 QUESTIONS
+====================== */
 
-    document.getElementById("title").innerText =
-        name.charAt(0).toUpperCase() + name.slice(1) + " Notes";
+let a,b,answer;
 
-    loadNote(name);
+/* ➕ ADD */
+function genAdd(){
+    a=Math.floor(Math.random()*20);
+    b=Math.floor(Math.random()*20);
+    answer=a+b;
+    document.getElementById("addQ").innerText = `${a} + ${b}`;
+}
+genAdd();
+
+/* ➖ SUB */
+function genSub(){
+    a=Math.floor(Math.random()*20);
+    b=Math.floor(Math.random()*20);
+    answer=a-b;
+    document.getElementById("subQ").innerText = `${a} - ${b}`;
+}
+genSub();
+
+/* ✖️ MUL */
+function genMul(){
+    a=Math.floor(Math.random()*12);
+    b=Math.floor(Math.random()*12);
+    answer=a*b;
+    document.getElementById("mulQ").innerText = `${a} × ${b}`;
+}
+genMul();
+
+/* ➗ DIV */
+function genDiv(){
+    a=Math.floor(Math.random()*12)+1;
+    b=Math.floor(Math.random()*12)+1;
+    let product=a*b;
+    answer=a;
+    document.getElementById("divQ").innerText = `${product} ÷ ${b}`;
+}
+genDiv();
+
+/* 🔷 AREA */
+function genArea(){
+    let w=6,h=4;
+    answer=w*h;
+    document.getElementById("areaQ").innerText = `W=${w}, H=${h}`;
+}
+genArea();
+
+/* 🟦 PYTHAG */
+function genPy(){
+    let pa=3,pb=4;
+    answer=Math.sqrt(pa*pa+pb*pb).toFixed(2);
+    document.getElementById("pyQ").innerText = `a=3, b=4 find c`;
+}
+genPy();
+
+/* ======================
+   ✔️ CHECKERS
+====================== */
+
+function check(valId, resultId){
+    let user = document.getElementById(valId).value;
+
+    if(valId==="pyAns"){
+        document.getElementById(resultId).innerText =
+            Math.abs(user-answer)<0.01 ? "✅ Correct" : "❌ " + answer;
+    } else {
+        document.getElementById(resultId).innerText =
+            user==answer ? "✅ Correct" : "❌ " + answer;
+    }
+
+    // new question after each check
+    if(valId==="addAns") genAdd();
+    if(valId==="subAns") genSub();
+    if(valId==="mulAns") genMul();
+    if(valId==="divAns") genDiv();
+    if(valId==="areaAns") genArea();
+    if(valId==="pyAns") genPy();
 }
 
-/* save notes */
-function saveNote(){
-    localStorage.setItem(
-        current,
-        document.getElementById("noteArea").value
-    );
-}
+/* wrappers */
+function checkAdd(){check("addAns","addR")}
+function checkSub(){check("subAns","subR")}
+function checkMul(){check("mulAns","mulR")}
+function checkDiv(){check("divAns","divR")}
+function checkArea(){check("areaAns","areaR")}
+function checkPy(){check("pyAns","pyR")}
 
-/* auto-save while typing */
-document.getElementById("noteArea").addEventListener("input", saveNote);
+/* ======================
+   🎮 KEYBOARD
+====================== */
 
-/* default load */
-loadNote("math");
+document.addEventListener("keydown",(e)=>{
+    if(e.key.toLowerCase()=="g"){
+        window.location.href="arcade.html";
+    }
+});
+
 </script>
 
 </body>
