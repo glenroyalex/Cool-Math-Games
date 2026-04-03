@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="effects.js"></script>
     <title>Snake</title>
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -76,7 +77,8 @@ function loop(){
 }
 
 setInterval(loop,150);
-
+playSound("click");
+spawnXP(150,150);
 </script>
 </body>
 </html>
