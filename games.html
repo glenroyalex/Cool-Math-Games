@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Math Quiz</title>
+    <title>Addition Game</title>
 </head>
 <body style="background:black; color:lime; text-align:center;">
 
-<h1>Quick Math!</h1>
+<h1>Addition Game</h1>
+
 <p id="question"></p>
 <input id="answer" type="number">
 <button onclick="check()">Submit</button>
@@ -16,10 +17,11 @@
 let a = Math.floor(Math.random()*10);
 let b = Math.floor(Math.random()*10);
 
-document.getElementById("question").innerText = `${a} + ${b} = ?`;
+document.getElementById("question").innerText = a + " + " + b + " = ?";
 
 function check() {
     let ans = document.getElementById("answer").value;
+
     if (parseInt(ans) === a + b) {
         document.getElementById("result").innerText = "Correct!";
     } else {
