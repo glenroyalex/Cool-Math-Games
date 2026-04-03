@@ -1,0 +1,28 @@
+body {
+    background-color: black;
+    color: lime;
+    font-family: Arial;
+    text-align: center;
+}
+
+h1 {
+    color: cyan;
+}
+
+.game-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.game {
+    border: 2px solid lime;
+    padding: 20px;
+    cursor: pointer;
+    background-color: #111;
+}
+
+.game:hover {
+    background-color: #222;
+}
