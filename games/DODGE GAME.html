@@ -1,23 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dodge Game</title>
+    <title>Dodge</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
-<body style="background:black; color:lime; text-align:center;">
 
-<h1>⚡ Dodge Game</h1>
+<body>
 
-<p>Press SPACE to survive</p>
+<h1>🏃 Dodge Game</h1>
+<p>A/D to move | Press M to go back</p>
 
-<p id="status">Alive</p>
+<canvas id="game" width="300" height="300"></canvas>
+<p>Score: <span id="score">0</span></p>
 
 <script>
-document.addEventListener("keydown", function(e) {
-    if (e.code === "Space") {
-        document.getElementById("status").innerText = "You survived!";
-    }
-});
-</script>
 
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+
+function addXP(v){
+    xp += v;
+    localStorage.setItem("xp", xp);
+}
+
+let canvas = document.getElementById("game");
+let ctx = canvas.getContext("2d");
+
+let player = {x:150,y:250};
+let enemies = [];
+let score = 0;
+
+document.addEventListener("keydown",e=>{
+    if(e.key=="a")player.x-=10;
+    if(e.key=="d")player.x+=10;
+    if(e.key.toLowerCase()=="m") window.location.href="../arcade.html";
+});
+
+function loop(){
+
+    if(Math.random()<0.05){
+        enemies.push({x:Math.random()*280,y:0});
+    }
+
+    ctx.clearRect(0,0,300,300);
+
+    ctx.fillStyle="blue";
+    ctx.fillRect(player.x,player.y,20,20);
+
+    ctx.fillStyle="red";
+
+    enemies.forEach((e,i)=>{
+        e.y += 3;
+
+        ctx.fillRect(e.x,e.y,20,20);
+
+        if(e.y>300){
+            enemies.splice(i,1);
+            score++;
+            addXP(5);
+            document.getElementById("score").innerText = score;
+        }
+
+        if(
+            e.x < player.x+20 &&
+            e.x+20 > player.x &&
+            e.y < player.y+20 &&
+            e.y+20 > player.y
+        ){
+            alert("Game Over! Score: " + score);
+            location.reload();
+        }
+    });
+}
+
+setInterval(loop,50);
+
+</script>
 </body>
 </html>
