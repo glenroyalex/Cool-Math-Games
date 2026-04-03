@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="effects.js"></script>
     <title>Clicker</title>
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -58,7 +59,8 @@ document.addEventListener("keydown",(e)=>{
         window.location.href="../arcade.html";
     }
 });
-
+playSound("click");
+spawnXP(event.clientX, event.clientY);
 </script>
 </body>
 </html>
