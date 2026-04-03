@@ -81,3 +81,36 @@ function nextQuestion(){
 
     document.getElementById("answer").value = "";
 }
+function checkLevel(){
+    let xp = parseInt(localStorage.getItem("xp")) || 0;
+    let level = parseInt(localStorage.getItem("level")) || 1;
+
+    if(xp >= 100 && level === 1){
+        level = 2;
+        showLevelUp("Snake Unlocked 🐍");
+    }
+
+    if(xp >= 250 && level === 2){
+        level = 3;
+        showLevelUp("Dodge Unlocked 🏃");
+    }
+
+    localStorage.setItem("level", level);
+}
+
+function showLevelUp(text){
+    let popup = document.createElement("div");
+    popup.innerHTML = "🏆 LEVEL UP!<br>" + text;
+    popup.style.position = "fixed";
+    popup.style.top = "40%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%,-50%)";
+    popup.style.background = "black";
+    popup.style.border = "2px solid lime";
+    popup.style.padding = "20px";
+    popup.style.color = "lime";
+    popup.style.fontSize = "20px";
+    document.body.appendChild(popup);
+
+    setTimeout(()=>popup.remove(),2000);
+}
