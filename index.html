@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Math Hub</title>
+    <title>cool math games</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Math Hub</h1>
+<h1>cool math games</h1>
 
 <button onclick="showNotes()">📚 Notes</button>
 <button onclick="showGames()">🎮 Games</button>
 
 <p>Press N = Notes | G = Games</p>
 
-<!-- 📚 NOTES MODE -->
+<!-- 📚 NOTES -->
 <div id="notesSection">
     <h2>Study Notes</h2>
-    <p>Multiplication: 3 × 4 = 12</p>
-    <p>Addition: 5 + 7 = 12</p>
+    <p>3 × 4 = 12</p>
+    <p>5 + 7 = 12</p>
+    <p>10 ÷ 2 = 5</p>
 </div>
 
-<!-- 🎮 GAMES MODE -->
+<!-- 🎮 GAMES -->
 <div id="gamesSection" style="display:none;">
+
     <div class="game" onclick="openGame('games/game1.html')">
         ➕ Addition Game (1)
     </div>
@@ -33,6 +35,7 @@
     <div class="game" onclick="openGame('games/game3.html')">
         🕹️ Reaction Game (3)
     </div>
+
 </div>
 
 <script src="script.js"></script>
