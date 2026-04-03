@@ -1,107 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cool Arcade</title>
-    <link rel="stylesheet" href="style.css">
-<script>
+<title>Cool Arcade</title>
 
-let user = localStorage.getItem("activeUser");
-
-if(!user){
-    window.location.href = "login.html";
+<style>
+body{
+    margin:0;
+    font-family: Arial;
+    background:#0f1220;
+    color:white;
 }
 
-/* 📦 LOAD USER DATA */
-function loadUser(){
-    let data = JSON.parse(localStorage.getItem("user_" + user));
-
-    if(!data){
-        data = {xp:0, level:1};
-    }
-
-    return data;
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    background:#1b1f36;
+    align-items:center;
 }
 
-/* 💾 SAVE USER DATA */
-function saveUser(data){
-    localStorage.setItem("user_" + user, JSON.stringify(data));
+.games{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:15px;
+    padding:20px;
 }
 
-/* 📊 INIT */
-let data = loadUser();
-
-let xp = data.xp;
-let level = data.level;
-
-function update(){
-    document.getElementById("xp").innerText = xp;
-    document.getElementById("lvl").innerText = level;
-}
-update();
-
-/* ⭐ XP SYSTEM */
-function addXP(amount){
-    xp += amount;
-
-    if(xp >= 100 && level === 1){
-        level = 2;
-        alert("Level Up! Snake unlocked 🐍");
-    }
-
-    if(xp >= 250 && level === 2){
-        level = 3;
-        alert("Level Up! Dodge unlocked 🏃");
-    }
-
-    saveUser({xp, level});
-    update();
+.game{
+    background:#22284a;
+    padding:20px;
+    text-align:center;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.2s;
 }
 
-/* 🎮 OPEN GAME */
-function openGame(game){
-    localStorage.setItem("nextGame", game);
-    window.location.href = "loading.html";
+.game:hover{
+    transform:scale(1.05);
+    background:#2d3563;
 }
 
-/* 🔓 UNLOCKS */
-function unlocks(){
-
-    let snake = document.getElementById("snake");
-    let dodge = document.getElementById("dodge");
-
-    if(level >= 2){
-        snake.onclick = () => openGame("snake");
-    } else {
-        snake.classList.add("locked");
-        snake.innerText = "🐍 Snake (Lvl 2)";
-    }
-
-    if(level >= 3){
-        dodge.onclick = () => openGame("dodge");
-    } else {
-        dodge.classList.add("locked");
-        dodge.innerText = "🏃 Dodge (Lvl 3)";
-    }
+.locked{
+    opacity:0.4;
+    pointer-events:none;
 }
 
-window.onload = () => unlocks();
+button{
+    padding:8px 12px;
+    cursor:pointer;
+}
+</style>
 
-/* 🚪 LOG OUT (press L) */
-document.addEventListener("keydown",(e)=>{
-    if(e.key.toLowerCase()=="l"){
-        localStorage.removeItem("activeUser");
-        window.location.href="login.html";
-    }
+</head>
 
-    if(e.key.toLowerCase()=="m"){
-        window.location.href="arcade.html";
-    }
-});
+<body>
+
+<div class="topbar">
+    <div>🎮 COOL ARCADE</div>
+
+    <div>
+        👤 <span id="username">Guest</span> |
+        ⭐ XP: <span id="xp">0</span> |
+        🏆 Lvl: <span id="lvl">1</span>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+</div>
+
+<div class="games">
+    <div class="game" id="clicker">🖱 Clicker</div>
+    <div class="game" id="snake">🐍 Snake</div>
+    <div class="game" id="dodge">🏃 Dodge</div>
+</div>
 
 <script>
 window.onload = () => {
 
-    /* 👤 USER SYSTEM */
+    // 👤 LOGIN CHECK
     let user = localStorage.getItem("activeUser");
 
     if(!user){
@@ -111,7 +86,7 @@ window.onload = () => {
 
     document.getElementById("username").innerText = user;
 
-    /* 📦 LOAD USER DATA */
+    // 💾 LOAD DATA
     let data = JSON.parse(localStorage.getItem("user_" + user)) || {
         xp: 0,
         level: 1
@@ -131,32 +106,16 @@ window.onload = () => {
 
     update();
 
-    /* ⭐ XP SYSTEM */
-    function addXP(amount){
-        xp += amount;
-
-        if(xp >= 100 && level === 1){
-            level = 2;
-            alert("Level Up! Snake unlocked 🐍");
-        }
-
-        if(xp >= 250 && level === 2){
-            level = 3;
-            alert("Level Up! Dodge unlocked 🏃");
-        }
-
-        save();
-        update();
-    }
-
-    /* 🎮 OPEN GAME */
-    window.openGame = function(game){
-        localStorage.setItem("nextGame", game);
+    // 🎮 OPEN GAME (SAME TAB)
+    function openGame(name){
+        localStorage.setItem("nextGame", name);
         window.location.href = "loading.html";
     }
 
-    /* 🔓 UNLOCK SYSTEM */
-    function unlocks(){
+    // 🏆 GAME UNLOCKS
+    function checkUnlocks(){
+
+        document.getElementById("clicker").onclick = () => openGame("clicker");
 
         let snake = document.getElementById("snake");
         let dodge = document.getElementById("dodge");
@@ -176,61 +135,15 @@ window.onload = () => {
         }
     }
 
-    unlocks();
+    checkUnlocks();
 
-    /* 🚪 LOGOUT */
-    window.logout = function(){
+    // 🚪 LOGOUT
+    window.logout = () => {
         localStorage.removeItem("activeUser");
         window.location.href = "login.html";
-    }
+    };
 
 };
-</script>
-let xp = parseInt(localStorage.getItem("xp")) || 0;
-let level = parseInt(localStorage.getItem("level")) || 1;
-
-function update(){
-    document.getElementById("xp").innerText = xp;
-    document.getElementById("lvl").innerText = level;
-}
-update();
-
-/* 🔓 UNLOCK SYSTEM */
-function unlocks(){
-
-    let snake = document.getElementById("snake");
-    let dodge = document.getElementById("dodge");
-
-    if(level >= 2){
-        snake.onclick = () => openGame("snake");
-    } else {
-        snake.classList.add("locked");
-        snake.innerText = "🐍 Snake (Lvl 2)";
-    }
-
-    if(level >= 3){
-        dodge.onclick = () => openGame("dodge");
-    } else {
-        dodge.classList.add("locked");
-        dodge.innerText = "🏃 Dodge (Lvl 3)";
-    }
-}
-
-unlocks();
-
-/* 🎮 OPEN GAME */
-function openGame(game){
-    localStorage.setItem("nextGame", game);
-    window.location.href = "loading.html";
-}
-
-/* 🧠 KEY EXIT */
-document.addEventListener("keydown",(e)=>{
-    if(e.key.toLowerCase()=="m"){
-        window.location.href="arcade.html";
-    }
-});
-
 </script>
 
 </body>
