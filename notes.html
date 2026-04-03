@@ -1,59 +1,220 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Study Notes</title>
+    <title>Math Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body tabindex="0">
 
-<div class="topbar">
-    📚 Study Hub
-    <span id="xpDisplay">XP: 0 | Level: 1</span>
-</div>
+<h1>📚 Math Practice Hub (Year 4–12)</h1>
+<p>Press <b>G</b> for Arcade Games</p>
 
-<div class="container">
+<!-- MENU -->
+<div class="menu">
 
-    <!-- NOTES (REAL CONTENT) -->
-    <div class="notes">
-        <h1>Year 4 → Year 12 Notes</h1>
-
-        <h2>➕ Addition</h2>
-        <p>Adding numbers combines values together.</p>
-
-        <h2>➖ Subtraction</h2>
-        <p>Subtracting finds the difference between numbers.</p>
-
-        <h2>✖️ Multiplication</h2>
-        <p>Multiplication is repeated addition.</p>
-
-        <h2>➗ Division</h2>
-        <p>Division splits numbers into equal groups.</p>
-
-        <h2>📏 Geometry</h2>
-        <p>Perimeter = sum of all sides.</p>
-        <p>Area = length × width (rectangle)</p>
-
-        <h2>🟦 Pythagoras</h2>
-        <p>a² + b² = c² (right triangles)</p>
-    </div>
-
-    <!-- INTERACTIVE PANEL -->
-    <div class="practice">
-
-        <h2>🎯 Practice</h2>
-
-        <div id="question"></div>
-
-        <input id="answer" placeholder="Your answer">
-        <button onclick="check()">Check</button>
-
-        <p id="result"></p>
-
-    </div>
+    <div class="card" onclick="show('add')">➕ Addition</div>
+    <div class="card" onclick="show('sub')">➖ Subtraction</div>
+    <div class="card" onclick="show('mul')">✖️ Multiplication</div>
+    <div class="card" onclick="show('div')">➗ Division</div>
+    <div class="card" onclick="show('perimeter')">📏 Perimeter</div>
+    <div class="card" onclick="show('area')">🔷 Area</div>
+    <div class="card" onclick="show('pythag')">🟦 Pythagoras</div>
+    <div class="card" onclick="show('mixed')">⚡ Mixed Challenge</div>
 
 </div>
 
-<script src="script.js"></script>
+<hr>
+
+<!-- ➕ ADDITION -->
+<div id="add" class="section hidden">
+    <h2>➕ Addition</h2>
+    <p id="addQ"></p>
+    <input id="addAns">
+    <button onclick="checkAdd()">Check</button>
+    <p id="addR"></p>
+</div>
+
+<!-- ➖ SUBTRACTION -->
+<div id="sub" class="section hidden">
+    <h2>➖ Subtraction</h2>
+    <p id="subQ"></p>
+    <input id="subAns">
+    <button onclick="checkSub()">Check</button>
+    <p id="subR"></p>
+</div>
+
+<!-- ✖️ MULTIPLICATION -->
+<div id="mul" class="section hidden">
+    <h2>✖️ Multiplication</h2>
+    <p id="mulQ"></p>
+    <input id="mulAns">
+    <button onclick="checkMul()">Check</button>
+    <p id="mulR"></p>
+</div>
+
+<!-- ➗ DIVISION -->
+<div id="div" class="section hidden">
+    <h2>➗ Division</h2>
+    <p id="divQ"></p>
+    <input id="divAns">
+    <button onclick="checkDiv()">Check</button>
+    <p id="divR"></p>
+</div>
+
+<!-- 📏 PERIMETER -->
+<div id="perimeter" class="section hidden">
+    <h2>📏 Perimeter</h2>
+    <p id="perQ"></p>
+    <input id="perAns">
+    <button onclick="checkPer()">Check</button>
+    <p id="perR"></p>
+</div>
+
+<!-- 🔷 AREA -->
+<div id="area" class="section hidden">
+    <h2>🔷 Area</h2>
+    <p id="areaQ"></p>
+    <input id="areaAns">
+    <button onclick="checkArea()">Check</button>
+    <p id="areaR"></p>
+</div>
+
+<!-- 🟦 PYTHAGORAS -->
+<div id="pythag" class="section hidden">
+    <h2>🟦 Pythagoras</h2>
+    <p id="pyQ"></p>
+    <input id="pyAns">
+    <button onclick="checkPy()">Check</button>
+    <p id="pyR"></p>
+</div>
+
+<!-- ⚡ MIXED -->
+<div id="mixed" class="section hidden">
+    <h2>⚡ Mixed Challenge</h2>
+    <p id="mixQ"></p>
+    <input id="mixAns">
+    <button onclick="checkMix()">Check</button>
+    <p id="mixR"></p>
+</div>
+
+<script>
+
+/* NAV */
+function show(id){
+    document.querySelectorAll(".section").forEach(s => s.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+}
+
+/* GENERATE QUESTIONS */
+let a,b,correct,op;
+
+/* ➕ ADD */
+a=Math.floor(Math.random()*20);
+b=Math.floor(Math.random()*20);
+document.getElementById("addQ").innerText = a + " + " + b;
+
+/* ➖ SUB */
+a=Math.floor(Math.random()*20);
+b=Math.floor(Math.random()*20);
+document.getElementById("subQ").innerText = a + " - " + b;
+
+/* ✖️ MUL */
+a=Math.floor(Math.random()*12);
+b=Math.floor(Math.random()*12);
+document.getElementById("mulQ").innerText = a + " × " + b;
+
+/* ➗ DIV */
+a=Math.floor(Math.random()*12)+1;
+b=Math.floor(Math.random()*12)+1;
+let divAns = a*b;
+document.getElementById("divQ").innerText = divAns + " ÷ " + a;
+
+/* 📏 PERIMETER */
+let p1=5,p2=7,p3=3;
+document.getElementById("perQ").innerText = p1 + "," + p2 + "," + p3;
+
+/* 🔷 AREA */
+let w=6,h=4;
+document.getElementById("areaQ").innerText = "W=" + w + " H=" + h;
+
+/* 🟦 PYTHAGORAS */
+let pa=3,pb=4;
+document.getElementById("pyQ").innerText = "a=" + pa + ", b=" + pb + " find c";
+
+/* ⚡ MIXED */
+document.getElementById("mixQ").innerText = "Random question (press check!)";
+
+/* CHECKERS */
+
+function checkAdd(){
+    let ans=document.getElementById("addAns").value;
+    let q=document.getElementById("addQ").innerText.split("+");
+    let correct=parseInt(q[0])+parseInt(q[1]);
+    document.getElementById("addR").innerText =
+        ans==correct ? "✅ Correct" : "❌ " + correct;
+}
+
+function checkSub(){
+    let ans=document.getElementById("subAns").value;
+    let q=document.getElementById("subQ").innerText.split("-");
+    let correct=parseInt(q[0])-parseInt(q[1]);
+    document.getElementById("subR").innerText =
+        ans==correct ? "✅ Correct" : "❌ " + correct;
+}
+
+function checkMul(){
+    let ans=document.getElementById("mulAns").value;
+    let q=document.getElementById("mulQ").innerText.split("×");
+    let correct=parseInt(q[0])*parseInt(q[1]);
+    document.getElementById("mulR").innerText =
+        ans==correct ? "✅ Correct" : "❌ " + correct;
+}
+
+function checkDiv(){
+    let ans=document.getElementById("divAns").value;
+    let q=document.getElementById("divQ").innerText.split("÷");
+    let correct=parseInt(q[0])/parseInt(q[1]);
+    document.getElementById("divR").innerText =
+        ans==correct ? "✅ Correct" : "❌ " + correct;
+}
+
+function checkPer(){
+    let ans=document.getElementById("perAns").value;
+    let correct=p1+p2+p3;
+    document.getElementById("perR").innerText =
+        ans==correct ? "✅ Correct" : "❌ " + correct;
+}
+
+function checkArea(){
+    let ans=document.getElementById("areaAns").value;
+    let correct=w*h;
+    document.getElementById("areaR").innerText =
+        ans==correct ? "✅ Correct" : "❌ " + correct;
+}
+
+function checkPy(){
+    let ans=document.getElementById("pyAns").value;
+    let correct=Math.sqrt(pa*pa+pb*pb).toFixed(2);
+    document.getElementById("pyR").innerText =
+        Math.abs(ans-correct)<0.01 ? "✅ Correct" : "❌ " + correct;
+}
+
+function checkMix(){
+    document.getElementById("mixR").innerText = "⚡ Keep going!";
+}
+
+/* G KEY */
+document.addEventListener("keydown",(e)=>{
+    if(e.key.toLowerCase()=="g"){
+        window.location.href="arcade.html";
+    }
+});
+
+/* focus fix */
+window.onload=()=>document.body.focus();
+
+</script>
+
 </body>
 </html>
