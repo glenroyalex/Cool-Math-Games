@@ -21,13 +21,31 @@
 <script>
 let game = localStorage.getItem("nextGame");
 
+// safety check
 if(!game){
     window.location.href = "arcade.html";
 }
 
-setTimeout(()=>{
-    window.location.href = "games/" + game + ".html";
-}, 800);
+// fake loading delay (Coolmath style feel)
+setTimeout(() => {
+
+    if(game === "snake"){
+        window.location.href = "games/SNAKE%20GAME.html";
+    }
+
+    else if(game === "clicker"){
+        window.location.href = "games/CLICKER%20GAME.html";
+    }
+
+    else if(game === "dodge"){
+        window.location.href = "games/DODGE%20GAME.html";
+    }
+
+    else {
+        window.location.href = "arcade.html";
+    }
+
+}, 900);
 </script>
 
 </body>
