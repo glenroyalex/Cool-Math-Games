@@ -106,6 +106,21 @@ body {
     font-family:monospace;
     margin:0;
 }
+/* 👤 USER SYSTEM */
+let user = localStorage.getItem("activeUser");
+
+if(!user){
+    window.location.href = "login.html";
+}
+
+/* SHOW USERNAME */
+document.getElementById("username").innerText = user;
+
+/* LOGOUT BUTTON */
+function logout(){
+    localStorage.removeItem("activeUser");
+    window.location.href = "login.html";
+}
 
 /* TOP BAR */
 .topbar {
