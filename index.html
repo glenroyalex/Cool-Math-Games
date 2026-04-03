@@ -8,17 +8,38 @@
 
 <h1>🎮 Game Hub</h1>
 
+<p>Press <b>G</b> for Games or <b>N</b> for Notes</p>
+
 <div class="menu">
 
-    <div class="card" onclick="location.href='notes.html'">
-        📚 Study Notes + Math Games
+    <div class="card" onclick="goNotes()">
+        📚 Notes
     </div>
 
-    <div class="card" onclick="location.href='arcade.html'">
-        🕹️ Arcade Games
+    <div class="card" onclick="goGames()">
+        🕹️ Games
     </div>
 
 </div>
+
+<script>
+function goNotes() {
+    window.location.href = "notes.html";
+}
+
+function goGames() {
+    window.location.href = "arcade.html";
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.key.toLowerCase() === "g") {
+        goGames();
+    }
+    if (e.key.toLowerCase() === "n") {
+        goNotes();
+    }
+});
+</script>
 
 </body>
 </html>
