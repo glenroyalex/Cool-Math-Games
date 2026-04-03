@@ -1,155 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Study Notes</title>
+    <title>Study Notes Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body tabindex="0">
 
 <h1>📚 Study Notes Hub</h1>
-
 <p>Press <b>G</b> to go to Games</p>
 
 <div class="menu">
 
-    <div class="card" onclick="openSection('arithmetic')">➕ Arithmetic</div>
-    <div class="card" onclick="openSection('times')">✖️ Times Tables</div>
-    <div class="card" onclick="openSection('mental')">🧠 Mental Maths</div>
-    <div class="card" onclick="openSection('random')">🔢 Random Practice</div>
-    <div class="card" onclick="openSection('perimeter')">📏 Perimeter</div>
-    <div class="card" onclick="openSection('pythag')">🟦 Pythagoras</div>
-    <div class="card" onclick="openSection('area')">🔷 Area of Shapes</div>
+    <div class="card" onclick="show('perimeter')">📏 Perimeter</div>
+    <div class="card" onclick="show('pythag')">🟦 Pythagoras</div>
+    <div class="card" onclick="show('area')">🔷 Area</div>
 
 </div>
 
 <hr>
 
-<!-- SECTIONS -->
-
-<div id="arithmetic" class="section hidden">
-    <h2>➕ Arithmetic</h2>
-    <button onclick="addGame()">Start Addition Game</button>
-</div>
-
-<div id="times" class="section hidden">
-    <h2>✖️ Times Tables</h2>
-    <button onclick="mulGame()">Start Multiplication Game</button>
-</div>
-
-<div id="mental" class="section hidden">
-    <h2>🧠 Mental Maths</h2>
-    <button onclick="mentalGame()">Start Mental Challenge</button>
-</div>
-
-<div id="random" class="section hidden">
-    <h2>🔢 Random Practice</h2>
-    <button onclick="randomGame()">Start Random Question</button>
-</div>
-
+<!-- 📏 PERIMETER -->
 <div id="perimeter" class="section hidden">
-    <h2>📏 Perimeter of Any Shape</h2>
-    <button onclick="perimeterGame()">Start Perimeter Question</button>
+    <h2>📏 Perimeter</h2>
+
+    <p>Sides: 5, 7, 3</p>
+
+    <input id="periAns" placeholder="Your answer">
+    <button onclick="checkPeri()">Check</button>
+
+    <p id="periResult"></p>
 </div>
 
+<!-- 🟦 PYTHAGORAS -->
 <div id="pythag" class="section hidden">
-    <h2>🟦 Pythagoras Theorem</h2>
-    <button onclick="pythagGame()">Start Pythagoras Question</button>
+    <h2>🟦 Pythagoras</h2>
+
+    <p>a = 3, b = 4 → find c</p>
+
+    <input id="pyAns" placeholder="c value">
+    <button onclick="checkPythag()">Check</button>
+
+    <p id="pyResult"></p>
 </div>
 
+<!-- 🔷 AREA -->
 <div id="area" class="section hidden">
-    <h2>🔷 Area of Shapes</h2>
-    <button onclick="areaGame()">Start Area Question</button>
+    <h2>🔷 Area of Rectangle</h2>
+
+    <p>Width = 6, Height = 4</p>
+
+    <input id="areaAns" placeholder="Area">
+    <button onclick="checkArea()">Check</button>
+
+    <p id="areaResult"></p>
 </div>
 
 <script>
-/* NAV BETWEEN SECTIONS */
-function openSection(id) {
-    document.querySelectorAll(".section").forEach(sec => sec.classList.add("hidden"));
+
+/* NAV */
+function show(id){
+    document.querySelectorAll(".section").forEach(s => s.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
 }
 
-/* BASIC MATH GAMES */
-function addGame() {
-    let a = Math.floor(Math.random()*10);
-    let b = Math.floor(Math.random()*10);
-    let ans = prompt(a + " + " + b + " = ?");
-    alert(ans == a + b ? "Correct!" : "Wrong!");
+/* 📏 PERIMETER */
+function checkPeri(){
+    let correct = 5 + 7 + 3;
+    let ans = document.getElementById("periAns").value;
+
+    document.getElementById("periResult").innerText =
+        (ans == correct) ? "✅ Correct!" : "❌ Wrong (Answer = " + correct + ")";
 }
 
-function mulGame() {
-    let a = Math.floor(Math.random()*12);
-    let b = Math.floor(Math.random()*12);
-    let ans = prompt(a + " × " + b + " = ?");
-    alert(ans == a * b ? "Correct!" : "Wrong!");
+/* 🟦 PYTHAGORAS */
+function checkPythag(){
+    let correct = Math.sqrt(3*3 + 4*4);
+    let ans = parseFloat(document.getElementById("pyAns").value);
+
+    document.getElementById("pyResult").innerText =
+        (Math.abs(ans - correct) < 0.01)
+        ? "✅ Correct!"
+        : "❌ Wrong (Answer = " + correct.toFixed(2) + ")";
 }
 
-function mentalGame() {
-    let a = Math.floor(Math.random()*20);
-    let b = Math.floor(Math.random()*20);
-    let ans = prompt("Quick! " + a + " + " + b + " = ?");
-    alert(ans == a + b ? "Nice!" : "Try again!");
+/* 🔷 AREA */
+function checkArea(){
+    let correct = 6 * 4;
+    let ans = document.getElementById("areaAns").value;
+
+    document.getElementById("areaResult").innerText =
+        (ans == correct) ? "✅ Correct!" : "❌ Wrong (Answer = " + correct + ")";
 }
 
-function randomGame() {
-    let type = Math.floor(Math.random()*2);
-    if (type === 0) addGame();
-    else mulGame();
-}
-
-/* 🔷 GEOMETRY GAMES */
-function perimeterGame() {
-    let sides = Math.floor(Math.random()*4) + 3; // triangle to hexagon
-    let lengths = [];
-    for (let i=0;i<sides;i++){
-        lengths.push(Math.floor(Math.random()*10)+1);
+/* G KEY */
+document.addEventListener("keydown", (e) => {
+    if(e.key.toLowerCase() === "g"){
+        window.location.href = "arcade.html";
     }
-    let sum = lengths.reduce((a,b)=>a+b,0);
-    let ans = prompt("Sides: " + lengths.join(", ") + "\nPerimeter = ?");
-    alert(ans == sum ? "Correct!" : "Wrong! The perimeter is " + sum);
-}
-
-function pythagGame() {
-    let a = Math.floor(Math.random()*10)+3;
-    let b = Math.floor(Math.random()*10)+3;
-    let c = Math.sqrt(a*a + b*b).toFixed(2);
-    let ans = prompt("a=" + a + ", b=" + b + "\nFind c (hypotenuse, 2 decimals) = ?");
-    alert(parseFloat(ans).toFixed(2) == c ? "Correct!" : "Wrong! c=" + c);
-}
-
-function areaGame() {
-    let shape = ["rectangle","triangle","circle"][Math.floor(Math.random()*3)];
-    let ans;
-    switch(shape){
-        case "rectangle":
-            let w = Math.floor(Math.random()*10)+1;
-            let h = Math.floor(Math.random()*10)+1;
-            let a1 = w*h;
-            ans = prompt("Rectangle w=" + w + ", h=" + h + "\nArea = ?");
-            alert(ans == a1 ? "Correct!" : "Wrong! Area=" + a1);
-            break;
-        case "triangle":
-            let b = Math.floor(Math.random()*10)+1;
-            let h2 = Math.floor(Math.random()*10)+1;
-            let a2 = (b*h2)/2;
-            ans = prompt("Triangle b=" + b + ", h=" + h2 + "\nArea = ?");
-            alert(ans == a2 ? "Correct!" : "Wrong! Area=" + a2);
-            break;
-        case "circle":
-            let r = Math.floor(Math.random()*5)+1;
-            let a3 = (Math.PI*r*r).toFixed(2);
-            ans = prompt("Circle r=" + r + "\nArea (2 decimals) = ?");
-            alert(parseFloat(ans).toFixed(2) == a3 ? "Correct!" : "Wrong! Area=" + a3);
-            break;
-    }
-}
-
-/* G KEY TO ARCADE */
-document.addEventListener("keydown", function(e) {
-    if(e.key.toLowerCase() === "g") window.location.href = "arcade.html";
 });
 
-/* auto focus */
+/* focus fix */
 window.onload = () => document.body.focus();
 
 </script>
