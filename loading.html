@@ -19,13 +19,15 @@
 <p>Starting game...</p>
 
 <script>
-
 let game = localStorage.getItem("nextGame");
 
-setTimeout(()=>{
-    window.location.href = "./games/" + game + ".html";
-}, 1000);
+if(!game){
+    window.location.href = "arcade.html";
+}
 
+setTimeout(()=>{
+    window.location.href = "games/" + game + ".html";
+}, 800);
 </script>
 
 </body>
