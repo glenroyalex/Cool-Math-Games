@@ -12,7 +12,9 @@ function addXP(amount){
         level++;
         alert("🎉 Level Up! You are now Level " + level);
     }
-
+localStorage.setItem("nextGame", name);
+window.location.href = "loading.html";
+}
     localStorage.setItem("xp", xp);
     localStorage.setItem("level", level);
 
